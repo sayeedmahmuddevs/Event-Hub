@@ -11,9 +11,7 @@ import {
   CalendarDays,
   History,
   LogIn,
-  UserPlus,
-  Heart,
-  ChevronDown,
+  UserPlus
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
