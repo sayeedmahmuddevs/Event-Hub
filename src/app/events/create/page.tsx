@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
 
 
 import {
@@ -27,6 +28,7 @@ import {
 
 export default function CreateEvent() {
   const [thumbnail, setThumbnail] = useState("");
+  
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
@@ -51,7 +53,7 @@ export default function CreateEvent() {
 
     console.log("Event created:", data);
 
-    alert("Event created successfully!");
+    toast.success("Event created successfully!");
 
   } catch (error) {
     console.error(error);

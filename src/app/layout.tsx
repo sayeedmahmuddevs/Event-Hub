@@ -3,10 +3,15 @@ import { Geist, Geist_Mono, Inter, Raleway } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/component/Navbar";
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/sonner";
+import Navbar_2 from "@/component/Navbar_2";
 
-const ralewayHeading = Raleway({subsets:['latin'],variable:'--font-heading'});
+const ralewayHeading = Raleway({
+  subsets: ["latin"],
+  variable: "--font-heading",
+});
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,20 +29,28 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
+  const session = false;
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable, ralewayHeading.variable)}
+      className={cn(
+        "h-full",
+        "antialiased",
+        geistSans.variable,
+        geistMono.variable,
+        "font-sans",
+        inter.variable,
+        ralewayHeading.variable,
+      )}
     >
       <body className="min-h-full flex flex-col">
-        <Navbar/>
-        <main className="mt-20">
-
-        {children}
-
-        </main>
         
-        </body>
+        {session ? <Navbar_2 /> : <Navbar />}
+        <main className="mt-20">
+          {children}
+          <Toaster position="top-center" richColors />
+        </main>
+      </body>
     </html>
   );
 }
