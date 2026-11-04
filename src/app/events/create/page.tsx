@@ -7,7 +7,6 @@ import {
   Image as ImageIcon,
   FileText,
   Type,
-  Sparkles,
   Send,
 } from "lucide-react";
 
@@ -15,6 +14,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { motion } from "framer-motion";
+
 
 import {
   Select,
@@ -23,29 +24,56 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import Image from "next/image";
 
 export default function CreateEvent() {
   const [thumbnail, setThumbnail] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
 
+  try {
     const formData = new FormData(e.currentTarget);
-
     const eventData = Object.fromEntries(formData.entries());
 
-    console.log(eventData);
-  };
+    const response = await fetch("http://localhost:8000/events", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(eventData),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Event creation failed");
+    }
+
+    console.log("Event created:", data);
+
+    alert("Event created successfully!");
+
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   return (
     <div className="min-h-screen bg-[#f5f4fa] px-4 py-12 sm:px-6">
-      <div className="mx-auto max-w-3xl">
-        
-
+      <motion.div
+        initial={{ opacity: 0, y: 35 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+        className="mx-auto max-w-3xl"
+      >
         {/* Form Card */}
 
-        <div className="rounded-3xl border border-slate-200 bg-white p-5 shadow-xl shadow-violet-900/5 sm:p-9">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="rounded-3xl border border-slate-200 bg-white p-5 shadow-xl shadow-violet-900/5 sm:p-9"
+        >
           <div className="mb-8 border-b border-slate-100 pb-6">
             <h2 className="text-xl font-bold text-slate-800">
               Event Information
@@ -180,24 +208,6 @@ export default function CreateEvent() {
                 />
               </div>
 
-              {/* Thumbnail Preview */}
-
-              {thumbnail && (
-                <div className="mt-3 overflow-hidden rounded-xl border border-slate-200">
-                  <Image
-                    src={thumbnail}
-                    alt="Event thumbnail preview"
-                    className="h-52 w-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.style.display = "none";
-                    }}
-                    onLoad={(e) => {
-                      e.currentTarget.style.display = "block";
-                    }}
-                  />
-                </div>
-              )}
-
               <p className="text-xs text-slate-400">
                 Paste your event image URL here.
               </p>
@@ -237,12 +247,12 @@ export default function CreateEvent() {
               Create Event
             </Button>
           </form>
-        </div>
+        </motion.div>
 
         <p className="mt-6 text-center text-xs text-slate-400">
           Made with care by EventHub
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 }

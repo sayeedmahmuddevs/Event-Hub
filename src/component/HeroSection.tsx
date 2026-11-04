@@ -128,7 +128,7 @@ const Hero = () => {
               size="lg"
               className="group h-13 rounded-xl border-emerald-200 bg-white px-8 text-base font-bold text-gray-800 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500 hover:bg-emerald-50 hover:text-emerald-700"
             >
-              <Link href="/create-event" className="flex items-center">
+              <Link href="/events/create" className="flex items-center">
                 <Heart
                   size={19}
                   className="mr-2 text-emerald-600 transition-transform duration-300 group-hover:scale-125"
