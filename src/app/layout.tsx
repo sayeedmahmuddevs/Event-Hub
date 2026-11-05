@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
-  const session = false;
+  const session = true;
   return (
     <html
       lang="en"
