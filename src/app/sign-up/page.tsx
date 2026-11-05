@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-
+import { toast } from "sonner";
 
 import {
   User,
@@ -32,7 +32,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-
+import { authClient } from "@/lib/auth-client";
 
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -66,31 +66,48 @@ export default function SignUpPage() {
 
   const isPasswordValid = passwordRequirements.every((item) => item.test);
 
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!isPasswordValid) {
-      alert("Please fulfill all password requirements!");
+      toast.error("Please fulfill all password requirements!");
       return;
     }
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      toast.error("Passwords do not match!");
       return;
     }
 
     const formData = new FormData(e.currentTarget);
 
-    const user = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      imgUrl: formData.get("imgUrl"),
-      password,
-      confirmPassword,
+    const user = Object.fromEntries(formData.entries()) as {
+      name: string;
+      email: string;
+      imgUrl: string;
+      password: string;
     };
 
-    console.log(user);
+    try {
+      const { data, error } = await authClient.signUp.email({
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        image: user.imgUrl,
+      });
+
+      if (error) {
+        toast.error(error.message || "Registration failed!");
+        return;
+      }
+
+      toast.success("Account created successfully!");
+
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong!");
+    }
   };
 
   return (
@@ -317,7 +334,6 @@ export default function SignUpPage() {
                   </div>
 
                   {/* Password Requirements */}
-                  
                 </div>
 
                 {/* Confirm Password */}
@@ -387,7 +403,6 @@ export default function SignUpPage() {
                     </div>
                   )}
                 </div>
-
 
                 {/* Submit */}
                 <Button

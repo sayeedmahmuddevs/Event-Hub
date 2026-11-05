@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter, Raleway } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/component/Navbar";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
-import Navbar_2 from "@/component/Navbar_2";
+import ParentNav from "@/component/ParentNav";
+import MainLayout from "@/component/MainLayout";
 
 const ralewayHeading = Raleway({
   subsets: ["latin"],
@@ -29,7 +29,6 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
-  const session = true;
   return (
     <html
       lang="en"
@@ -44,12 +43,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       )}
     >
       <body className="min-h-full flex flex-col">
-        
-        {session ? <Navbar_2 /> : <Navbar />}
-        <main className="ml-65">
+        <ParentNav />
+
+        <MainLayout>
           {children}
           <Toaster position="top-center" richColors />
-        </main>
+        </MainLayout>
       </body>
     </html>
   );

@@ -93,7 +93,7 @@ export default function EditEvents({ event,onEdited }: EditEventsProps) {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className=" min-w-xl overflow-y-auto rounded-3xl p-8">
+      <DialogContent className="w-[95vw] max-w-2xl max-h-[90dvh] overflow-y-auto rounded-3xl p-4 sm:p-6 lg:p-8">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">
             Edit Event Information

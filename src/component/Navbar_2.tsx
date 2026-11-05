@@ -23,6 +23,8 @@ import {
   SheetClose,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 // Navigation Items
 const navItems = [
@@ -46,11 +48,11 @@ const navItems = [
     href: "/events",
     icon: CalendarDays,
   },
-{
-  title: "Joined Events",
-  href: "/joined-events",
-  icon: CalendarCheck,
-},
+  {
+    title: "Joined Events",
+    href: "/joined-events",
+    icon: CalendarCheck,
+  },
 
   {
     title: "Dashboard",
@@ -67,6 +69,18 @@ const navItems = [
 // Sidebar Content
 function SidebarContent({ mobile = false }: { mobile?: boolean }) {
   const pathname = usePathname();
+  const router = useRouter();
+  
+  const handleSignOut = async () => {
+    try {
+      await authClient.signOut();
+
+      router.replace("/");
+      router.refresh();
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <div className="flex h-full min-h-0 flex-col bg-[#17152f] p-6 text-white">
@@ -127,9 +141,9 @@ function SidebarContent({ mobile = false }: { mobile?: boolean }) {
           <SheetClose>
             <button
               type="button"
-              onClick={() => {
-                // Add your logout function here
-              }}
+              onClick={
+                handleSignOut
+              }
               className="flex h-12 w-full items-center gap-3 rounded-xl px-4 font-semibold text-red-400 transition hover:bg-red-500/10 hover:text-red-300"
             >
               <LogOut size={20} />
@@ -138,10 +152,10 @@ function SidebarContent({ mobile = false }: { mobile?: boolean }) {
           </SheetClose>
         ) : (
           <button
+              onClick={
+                handleSignOut
+              }
             type="button"
-            onClick={() => {
-              // Add your logout function here
-            }}
             className="flex h-12 w-full items-center gap-3 rounded-xl px-4 font-semibold text-red-400 transition hover:bg-red-500/10 hover:text-red-300"
           >
             <LogOut size={20} />
@@ -158,7 +172,7 @@ export default function Navbar_2() {
   return (
     <>
       {/* Desktop Sidebar - Full Screen Height */}
-      <aside className="fixed left-0 top-0 hidden h-screen w-64 lg:flex lg:flex-col z-100">
+      <aside className="fixed left-0 top-0 hidden h-screen w-64 lg:flex lg:flex-col z-50">
         <SidebarContent />
       </aside>
 

@@ -30,24 +30,48 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
+  const formData = new FormData(e.currentTarget);
 
-    const user = {
-      email: formData.get("email"),
-      password: formData.get("password"),
-      rememberMe,
-    };
-
-    console.log(user);
+  const user = Object.fromEntries(formData.entries()) as {
+    email: string;
+    password: string;
   };
+
+  try {
+    const { data, error } = await authClient.signIn.email({
+      email: user.email,
+      password: user.password,
+    });
+
+
+     if (data) {
+       toast.success("Log in successfully!");
+      window.location.assign("/");
+    }
+        if (error) {
+      toast.error(error.message || "Log In failed!");
+      return;
+    }
+
+  } catch (error) {
+    console.error(error);
+    toast.error("Something went wrong!");
+  }
+};
+
 
   return (
     <div className="min-h-screen bg-[#f5fbf7] flex items-center justify-center px-4 py-12">
