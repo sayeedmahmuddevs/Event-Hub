@@ -18,6 +18,9 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { EventType } from "@/type";
+import Link from "next/link";
+import EditEvents from "./EditEvents";
+import { DeleteEvent } from "./DeleteEvent";
 
 interface eventCardProps{
     cd: EventType
@@ -25,14 +28,11 @@ interface eventCardProps{
 
 
 export default function EventCard({ cd }: eventCardProps) {
+    console.log("new Evendsjskdalfj;s",cd)
   
 
   const handleView = (id: string) => {
     console.log("View event:", id);
-  };
-
-  const handleEdit = (id: string) => {
-    console.log("Edit event:", id);
   };
 
   const handleDelete = (id: string) => {
@@ -84,7 +84,8 @@ export default function EventCard({ cd }: eventCardProps) {
       </CardContent>
 
       <CardFooter className="flex gap-2 border-t pt-4">
-        <Button
+        <Link href = {`/events/${cd._id}`}>
+            <Button
           variant="outline"
           size="sm"
           className="flex-1"
@@ -93,26 +94,16 @@ export default function EventCard({ cd }: eventCardProps) {
           <Eye className="h-4 w-4 mr-1" />
           View
         </Button>
-
-        <Button
-          variant="outline"
-          size="sm"
-          className="flex-1"
-          onClick={() => handleEdit(cd._id)}
-        >
-          <Pencil className="h-4 w-4 mr-1" />
-          Edit
-        </Button>
-
-        <Button
-          variant="destructive"
-          size="sm"
-          className="flex-1"
-          onClick={() => handleDelete(cd._id)}
-        >
-          <Trash2 className="h-4 w-4 mr-1" />
-          Delete
-        </Button>
+        </Link>
+        
+            <button>
+                <EditEvents event={cd}/>
+            </button>
+        
+            <button>
+                <DeleteEvent event = {cd}/>
+            </button>
+        
       </CardFooter>
     </Card>
   );

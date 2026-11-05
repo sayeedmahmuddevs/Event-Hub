@@ -12,7 +12,8 @@ import {
   Heart,
   LogOut,
   Menu,
-  CalendarCog
+  CalendarCheck,
+  CalendarClock,
 } from "lucide-react";
 
 import {
@@ -36,15 +37,21 @@ const navItems = [
     icon: CalendarPlus,
   },
   {
-    title: "Manage Events",
+    title: "Upcoming Events",
     href: "/manage-events",
-    icon: CalendarCog,
+    icon: CalendarClock,
   },
   {
     title: "My Events",
     href: "/events",
     icon: CalendarDays,
   },
+{
+  title: "Joined Events",
+  href: "/joined-events",
+  icon: CalendarCheck,
+},
+
   {
     title: "Dashboard",
     href: "/dashboard",

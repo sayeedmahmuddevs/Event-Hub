@@ -17,7 +17,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 
-
 import {
   Select,
   SelectContent,
@@ -28,37 +27,35 @@ import {
 
 export default function CreateEvent() {
   const [thumbnail, setThumbnail] = useState("");
-  
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    const formData = new FormData(e.currentTarget);
-    const eventData = Object.fromEntries(formData.entries());
+    try {
+      const formData = new FormData(e.currentTarget);
+      const eventData = Object.fromEntries(formData.entries());
 
-    const response = await fetch("http://localhost:8000/events", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(eventData),
-    });
+      const response = await fetch("http://localhost:8000/events", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(eventData),
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error(data.message || "Event creation failed");
+      if (!response.ok) {
+        throw new Error(data.message || "Event creation failed");
+      }
+
+      console.log("Event created:", data);
+
+      toast.success("Event created successfully!");
+    } catch (error) {
+      console.error(error);
     }
-
-    console.log("Event created:", data);
-
-    toast.success("Event created successfully!");
-
-  } catch (error) {
-    console.error(error);
-  }
-};
+  };
 
   return (
     <div className="min-h-screen bg-[#f5f4fa] px-4 py-12 sm:px-6">

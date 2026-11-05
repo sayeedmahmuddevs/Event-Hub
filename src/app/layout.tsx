@@ -46,7 +46,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         
         {session ? <Navbar_2 /> : <Navbar />}
-        <main className="mt-20">
+        <main className="ml-65">
           {children}
           <Toaster position="top-center" richColors />
         </main>
