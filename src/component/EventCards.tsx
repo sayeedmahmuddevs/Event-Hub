@@ -16,15 +16,17 @@ import Link from "next/link";
 import EditEvents from "./EditEvents";
 import { DeleteEvent } from "./DeleteEvent";
 
+
 interface eventCardProps {
   cd: EventType;
   onUpdated: () => void;
+  eventCount: number
 
 }
 
 export default function EventCard({ cd, onUpdated }: eventCardProps) {
   return (
-    <Card className=" overflow-hidden max-w-sm rounded-xl shadow-md hover:shadow-lg transition-shadow">
+<Card className=" overflow-hidden max-w-sm rounded-xl shadow-md hover:shadow-lg transition-shadow">
       {/* Thumbnail */}
       <div className="relative h-52 w-full">
         <Image

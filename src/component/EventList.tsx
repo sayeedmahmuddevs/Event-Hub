@@ -1,9 +1,9 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
 import EventCard from "@/component/EventCards";
 import { EventType } from "@/type";
+import NoEvents from "./NoEvents";
 
 export default function EventList() {
   const [events, setEvents] = useState<EventType[]>([]);
@@ -21,7 +21,6 @@ export default function EventList() {
 
       const data: EventType[] = await res.json();
       setEvents(data);
-
     } catch (error) {
       console.error(error);
     } finally {
@@ -68,14 +67,21 @@ export default function EventList() {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-      {events.map((cd) => (
-        <EventCard
-          key={cd._id}
-          cd={cd}
-          onUpdated={fetchEvents}
-        />
-      ))}
+    <div>
+      {events.length === 0 ? (
+        <NoEvents />
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+          {events.map((cd) => (
+            <EventCard
+              key={cd._id}
+              cd={cd}
+              onUpdated={fetchEvents}
+              eventCount={events.length}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
