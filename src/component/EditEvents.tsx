@@ -34,18 +34,16 @@ import {
 } from "@/components/ui/select";
 
 import { useState } from "react";
+import { EventType } from "@/type";
 
-interface EventType {
-  _id: string;
-  title: string;
-  type: string;
-  eventDate: string;
-  location: string;
-  thumbnail: string;
-  description: string;
+interface EditEventsProps{
+    event: EventType
+    onEdited?: () => void;
+
 }
 
-export default function EditEvents({ event }: { event: EventType }) {
+
+export default function EditEvents({ event,onEdited }: EditEventsProps) {
   const [open, setOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -75,6 +73,7 @@ export default function EditEvents({ event }: { event: EventType }) {
 
       toast.success("Event updated successfully!");
       setOpen(false);
+      onEdited?.()
       console.log("singleData",data)
     } catch (error) {
       toast.error(
