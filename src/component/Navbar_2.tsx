@@ -40,12 +40,12 @@ const navItems = [
   },
   {
     title: "Upcoming Events",
-    href: "/manage-events",
+    href: "/events",
     icon: CalendarClock,
   },
   {
     title: "My Events",
-    href: "/events",
+    href: "/events/my-events",
     icon: CalendarDays,
   },
   {

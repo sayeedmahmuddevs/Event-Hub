@@ -24,23 +24,38 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { authClient } from "@/lib/auth-client";
 
 export default function CreateEvent() {
+  const userData = authClient.useSession();
+  const user = userData.data?.user;
   const [thumbnail, setThumbnail] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    if (userData.isPending) {
+      toast.info("Loading user...");
+      return;
+    }
+
     try {
       const formData = new FormData(e.currentTarget);
       const eventData = Object.fromEntries(formData.entries());
+      const datas = {
+        userName: "@" + user?.email.split("@")[0],
+        userId: user?.id,
+        ...eventData,
+        createdDate: new Date().toLocaleString("en-US"),
+      };
 
       const response = await fetch("http://localhost:8000/events", {
+
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(eventData),
+        body: JSON.stringify(datas),
       });
 
       const data = await response.json();

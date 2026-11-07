@@ -5,13 +5,17 @@ import EventCard from "@/component/EventCards";
 import { EventType } from "@/type";
 import NoEvents from "./NoEvents";
 
-export default function EventList() {
+interface EventListProps{
+  api:string
+}
+
+export default function EventList({api} : EventListProps) {
   const [events, setEvents] = useState<EventType[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchEvents = async () => {
     try {
-      const res = await fetch("http://localhost:8000/events", {
+      const res = await fetch(api, {
         cache: "no-store",
       });
 
@@ -33,7 +37,7 @@ export default function EventList() {
 
     const loadEvents = async () => {
       try {
-        const res = await fetch("http://localhost:8000/events", {
+        const res = await fetch(api, {
           cache: "no-store",
         });
 
@@ -60,7 +64,7 @@ export default function EventList() {
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [api]);
 
   if (loading) {
     return <p className="p-6">Loading events...</p>;
