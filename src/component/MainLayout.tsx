@@ -17,7 +17,7 @@ export default function MainLayout({
       className={
         isLoggedIn
           ? "ml-0 lg:ml-64"
-          : "ml-0"
+          : "ml-0 lg:mt-18"
       }
     >
       {children}

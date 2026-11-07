@@ -123,19 +123,19 @@ export default function SignUpPage() {
           <div className="max-w-lg">
             {/* Logo */}
             <Link href="/" className="inline-flex items-center gap-3 mb-12">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-600 text-white">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-600 text-white">
                 <Heart size={25} />
               </div>
 
               <span className="text-2xl font-black text-gray-900">
-                Event<span className="text-emerald-600">Hub</span>
+                Event<span className="text-blue-600">Hub</span>
               </span>
             </Link>
 
             {/* Heading */}
             <h1 className="text-5xl font-black leading-tight text-gray-900">
               Be Part of
-              <span className="block text-emerald-600">Something Great.</span>
+              <span className="block text-blue-600">Something Great.</span>
             </h1>
 
             <p className="mt-6 text-lg leading-8 text-gray-600">
@@ -171,9 +171,9 @@ export default function SignUpPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 + index * 0.15 }}
-                    className="flex items-center gap-4 rounded-xl border border-emerald-100 bg-white/80 p-4 shadow-sm"
+                    className="flex items-center gap-4 rounded-xl border border-blue-100 bg-white/80 p-4 shadow-sm"
                   >
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-600">
                       <Icon size={23} />
                     </div>
 
@@ -188,7 +188,7 @@ export default function SignUpPage() {
             </div>
 
             {/* Trust Message */}
-            <div className="mt-8 flex items-center gap-2 text-sm font-medium text-emerald-700">
+            <div className="mt-8 flex items-center gap-2 text-sm font-medium text-blue-700">
               <CheckCircle2 size={18} />
               Free to join. Easy to use. Made for everyone.
             </div>
@@ -202,21 +202,21 @@ export default function SignUpPage() {
           transition={{ duration: 0.7 }}
           className="w-full max-w-md mx-auto"
         >
-          <Card className="border-0 rounded-3xl bg-white shadow-xl shadow-emerald-900/5">
+          <Card className="border-0 rounded-3xl bg-white shadow-xl shadow-blue-900/5">
             <CardHeader className="space-y-3 p-7 sm:p-9">
               {/* Mobile Logo */}
               <Link href="/" className="flex lg:hidden items-center gap-2 mb-5">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-600 text-white">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white">
                   <Heart size={21} />
                 </div>
 
                 <span className="text-xl font-black">
-                  Event<span className="text-emerald-600">Hub</span>
+                  Event<span className="text-blue-600">Hub</span>
                 </span>
               </Link>
 
               <div className="flex justify-center">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-600">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100 text-blue-600">
                   <User size={27} />
                 </div>
               </div>
@@ -247,7 +247,7 @@ export default function SignUpPage() {
                       type="text"
                       placeholder="Enter your full name"
                       required
-                      className="h-12 rounded-xl border-gray-200 pl-11 focus-visible:ring-emerald-500"
+                      className="h-12 rounded-xl border-gray-200 pl-11 focus-visible:ring-blue-500"
                     />
                   </div>
                 </div>
@@ -270,7 +270,7 @@ export default function SignUpPage() {
                       type="email"
                       placeholder="Enter your email"
                       required
-                      className="h-12 rounded-xl border-gray-200 pl-11 focus-visible:ring-emerald-500"
+                      className="h-12 rounded-xl border-gray-200 pl-11 focus-visible:ring-blue-500"
                     />
                   </div>
                 </div>
@@ -293,7 +293,7 @@ export default function SignUpPage() {
                       type="text"
                       placeholder="Enter the URL of your image"
                       required
-                      className="h-12 rounded-xl border-gray-200 pl-11 focus-visible:ring-emerald-500"
+                      className="h-12 rounded-xl border-gray-200 pl-11 focus-visible:ring-blue-500"
                     />
                   </div>
                 </div>
@@ -318,13 +318,13 @@ export default function SignUpPage() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
-                      className="h-12 rounded-xl border-gray-200 pl-11 pr-12 focus-visible:ring-emerald-500"
+                      className="h-12 rounded-xl border-gray-200 pl-11 pr-12 focus-visible:ring-blue-500"
                     />
 
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-emerald-600"
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-600"
                       aria-label={
                         showPassword ? "Hide password" : "Show password"
                       }
@@ -356,7 +356,7 @@ export default function SignUpPage() {
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       required
-                      className="h-12 rounded-xl border-gray-200 pl-11 pr-12 focus-visible:ring-emerald-500"
+                      className="h-12 rounded-xl border-gray-200 pl-11 pr-12 focus-visible:ring-blue-500"
                     />
 
                     <button
@@ -364,7 +364,7 @@ export default function SignUpPage() {
                       onClick={() =>
                         setShowConfirmPassword(!showConfirmPassword)
                       }
-                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-emerald-600"
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-600"
                       aria-label={
                         showConfirmPassword
                           ? "Hide confirm password"
@@ -386,9 +386,9 @@ export default function SignUpPage() {
                         <>
                           <CheckCircle2
                             size={15}
-                            className="text-emerald-600"
+                            className="text-blue-600"
                           />
-                          <span className="text-xs font-medium text-emerald-600">
+                          <span className="text-xs font-medium text-blue-600">
                             Passwords match
                           </span>
                         </>
@@ -408,7 +408,7 @@ export default function SignUpPage() {
                 <Button
                   type="submit"
                   disabled={!isPasswordValid || password !== confirmPassword}
-                  className="group h-12 w-full rounded-xl bg-emerald-600 text-base font-bold text-white shadow-lg shadow-emerald-600/20 transition-all hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="group h-12 w-full rounded-xl bg-blue-600 text-base font-bold text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   Create Account
                   <ArrowRight
@@ -482,7 +482,7 @@ export default function SignUpPage() {
                 Already have an account?{" "}
                 <Link
                   href="/sign-in"
-                  className="font-bold text-emerald-600 hover:underline"
+                  className="font-bold text-blue-600 hover:underline"
                 >
                   Sign In
                 </Link>
@@ -494,7 +494,7 @@ export default function SignUpPage() {
           <div className="mt-6 text-center">
             <Link
               href="/"
-              className="text-sm font-semibold text-gray-500 transition-colors hover:text-emerald-600"
+              className="text-sm font-semibold text-gray-500 transition-colors hover:text-blue-600"
             >
               ← Back to Home
             </Link>

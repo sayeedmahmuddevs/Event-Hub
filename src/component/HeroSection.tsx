@@ -46,15 +46,15 @@ const stats = [
 
 const Hero = () => {
   return (
-    <section className="relative isolate overflow-hidden bg-gradient-to-b from-emerald-50 via-white to-white px-4 py-10 sm:py-10 lg:py-10">
+    <section className="relative isolate overflow-hidden bg-gradient-to-b from-blue-50 via-white to-white px-4 py-10 sm:py-10 lg:py-10">
 
       {/* Background Decorations */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute -left-32 -top-40 h-96 w-96 rounded-full bg-emerald-200/40 blur-[100px]" />
+        <div className="absolute -left-32 -top-40 h-96 w-96 rounded-full bg-blue-200/40 blur-[100px]" />
 
-        <div className="absolute -right-32 top-20 h-96 w-96 rounded-full bg-teal-200/40 blur-[110px]" />
+        <div className="absolute -right-32 top-20 h-96 w-96 rounded-full bg-sky-200/40 blur-[110px]" />
 
-        <div className="absolute -bottom-40 left-1/3 h-96 w-96 rounded-full bg-green-100/70 blur-[100px]" />
+        <div className="absolute -bottom-40 left-1/3 h-96 w-96 rounded-full bg-indigo-100/70 blur-[100px]" />
       </div>
 
       <div className="mx-auto max-w-7xl">
@@ -76,24 +76,24 @@ const Hero = () => {
           >
             <Badge
               variant="outline"
-              className="gap-2 rounded-full border-emerald-200 bg-white px-5 py-2 text-sm font-semibold text-emerald-700 shadow-sm"
+              className="gap-2 rounded-full border-blue-200 bg-white px-5 py-2 text-sm font-semibold text-blue-700 shadow-sm"
             >
-              <Sparkles size={16} className="text-emerald-500" />
+              <Sparkles size={16} className="text-blue-500" />
 
               Community-Driven Social Impact Platform
 
-              <span className="h-2 w-2 animate-pulse rounded-full bg-emerald-500" />
+              <span className="h-2 w-2 animate-pulse rounded-full bg-blue-500" />
             </Badge>
           </motion.div>
 
           {/* Heading */}
           <h1 className="text-2xl font-black leading-[1.15] tracking-tight text-gray-900 sm:text-5xl md:text-6xl lg:text-5xl">
             Small Acts,
-            <span className="text-emerald-600">
+            <span className="text-blue-600">
               {" "}Big Impact.
             </span>
 
-            <span className="mt-3 block bg-gradient-to-r from-emerald-600 via-teal-500 to-green-600 bg-clip-text text-transparent">
+            <span className="mt-3 block bg-gradient-to-r from-blue-600 via-sky-500 to-indigo-600 bg-clip-text text-transparent">
               {"Let's"} Make a Difference Together.
             </span>
           </h1>
@@ -111,7 +111,7 @@ const Hero = () => {
 
             <Button
               size="lg"
-              className="group h-13 rounded-xl bg-emerald-600 px-8 text-base font-bold text-white shadow-lg shadow-emerald-600/25 transition-all duration-300 hover:-translate-y-1 hover:bg-emerald-700 hover:shadow-xl"
+              className="group h-13 rounded-xl bg-blue-600 px-8 text-base font-bold text-white shadow-lg shadow-blue-600/25 transition-all duration-300 hover:-translate-y-1 hover:bg-blue-700 hover:shadow-xl"
             >
               <Link href="/events" className="flex items-center">
                 Explore Events
@@ -126,12 +126,12 @@ const Hero = () => {
             <Button
               variant="outline"
               size="lg"
-              className="group h-13 rounded-xl border-emerald-200 bg-white px-8 text-base font-bold text-gray-800 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500 hover:bg-emerald-50 hover:text-emerald-700"
+              className="group h-13 rounded-xl border-blue-200 bg-white px-8 text-base font-bold text-gray-800 transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 hover:bg-blue-50 hover:text-blue-700"
             >
               <Link href="/events/create" className="flex items-center">
                 <Heart
                   size={19}
-                  className="mr-2 text-emerald-600 transition-transform duration-300 group-hover:scale-125"
+                  className="mr-2 text-blue-600 transition-transform duration-300 group-hover:scale-125"
                 />
 
                 Create an Event
@@ -142,7 +142,7 @@ const Hero = () => {
 
           {/* Trust Message */}
           <div className="mt-9 flex flex-wrap items-center justify-center gap-2 text-sm text-gray-500">
-            <Users size={17} className="text-emerald-600" />
+            <Users size={17} className="text-blue-600" />
 
             <span>
               Join thousands of people making a positive impact.
@@ -168,15 +168,15 @@ const Hero = () => {
                 }}
                 whileHover={{ y: -7 }}
               >
-                <Card className="group relative overflow-hidden rounded-2xl border-emerald-100 bg-white/80 shadow-sm backdrop-blur-lg transition-all duration-300 hover:shadow-xl hover:shadow-emerald-900/5">
+                <Card className="group relative overflow-hidden rounded-2xl border-blue-100 bg-white/80 shadow-sm backdrop-blur-lg transition-all duration-300 hover:shadow-xl hover:shadow-blue-900/5">
 
                   {/* Card Decoration */}
-                  <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-emerald-50 transition-transform duration-500 group-hover:scale-150" />
+                  <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-blue-50 transition-transform duration-500 group-hover:scale-150" />
 
                   <CardContent className="relative flex flex-col items-center p-5 text-center sm:p-7">
 
                     {/* Icon */}
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600 transition-all duration-300 group-hover:bg-emerald-600 group-hover:text-white">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-blue-600 transition-all duration-300 group-hover:bg-blue-600 group-hover:text-white">
                       <Icon size={23} />
                     </div>
 
