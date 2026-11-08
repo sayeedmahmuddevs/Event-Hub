@@ -2,13 +2,22 @@
 
 import Image from "next/image";
 import { EventType } from "@/type";
-import { CalendarDays, MapPin, Clock, UserRound, Tag } from "lucide-react";
+import {
+  CalendarDays,
+  MapPin,
+  Clock,
+  UserRound,
+  Tag,
+  Link,
+  ArrowRight,
+} from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
+import formatEventDate from "./DateFormate";
 
 interface EventDetailsProps {
   card: EventType;
@@ -23,8 +32,6 @@ export default function EventDetails({ card }: EventDetailsProps) {
   const user = session.data?.user;
 
   const [organizer, setOrganizer] = useState<OrganizerType | null>(null);
-
-  
 
   // Fetch organizer information
   useEffect(() => {
@@ -68,10 +75,12 @@ export default function EventDetails({ card }: EventDetailsProps) {
         }),
       });
       const data = await response.json();
-      
-      if(data.message){
-        toast.error(data.message)
-      }else{ toast.success("You have joined successful")};
+
+      if (data.message) {
+        toast.error(data.message);
+      } else {
+        toast.success("You have joined successful");
+      }
 
       console.log(data);
     } catch (error) {
@@ -81,28 +90,10 @@ export default function EventDetails({ card }: EventDetailsProps) {
     }
   };
 
-  // date
-  const eventDate = new Date(`${card.eventDate}T00:00:00`);
-
-  const formattedDate = eventDate.toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-
-  const [hours, minutes] = card.eventTime.split(":");
-
-  const formattedTime = new Date(
-    2000,
-    0,
-    1,
-    Number(hours),
-    Number(minutes),
-  ).toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
+  const { formattedDate, formattedTime } = formatEventDate(
+    card.eventDate,
+    card.eventTime,
+  );
 
   return (
     <div className="min-h-screen bg-slate-50 px-4 py-10">
@@ -161,23 +152,30 @@ export default function EventDetails({ card }: EventDetailsProps) {
 
         {/* Organizer Details */}
         <Card className="mt-6 rounded-2xl border-none shadow-sm">
-          <CardContent className="flex items-center gap-4 p-6">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-violet-100 text-violet-600 overflow-hidden">
-              <Image
-                src={organizer?.image || ""}
-                alt={"image"}
-                width={40}
-                height={40}
-                className="w-full"
-              />
+          <CardContent className="flex items-center justify-between gap-4 p-6">
+            <div className="flex items-center gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-violet-100 text-violet-600 overflow-hidden">
+                <Image
+                  src={organizer?.image || ""}
+                  alt={"image"}
+                  width={40}
+                  height={40}
+                  className="w-full"
+                />
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-slate-900">
+                  {organizer?.name}
+                </h3>
+                <p className="text-sm text-slate-500">{card.userName}</p>
+              </div>
             </div>
 
-            <div>
-              <h3 className="font-semibold text-slate-900">
-                {organizer?.name}
-              </h3>
-              <p className="text-sm text-slate-500">{card.userName}</p>
-            </div>
+            <Button className="">
+              <ArrowRight className="ml-2" />
+              View Profile
+            </Button>
           </CardContent>
         </Card>
 

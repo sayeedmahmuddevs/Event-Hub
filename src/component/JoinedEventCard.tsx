@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import formatEventDate from "./DateFormate";
 
 export type EventType = {
   _id: string;
@@ -25,11 +26,16 @@ type JoinedEventCardProps = {
   event: EventType;
 };
 
+
 export default function JoinedEventCard({ event }: JoinedEventCardProps) {
+    // formateDate
+    const {formattedDate, formattedTime} = formatEventDate(event.eventDate, event.eventTime)
+
+
   return (
     <Card className="overflow-hidden rounded-2xl border shadow-sm hover:shadow-lg transition-all duration-300">
       {/* Thumbnail */}
-      <div className="relative h-52 w-full">
+      <div className="relative h-40 w-full">
         <Image
           src={event.thumbnail}
           alt={event.title}
@@ -52,7 +58,7 @@ export default function JoinedEventCard({ event }: JoinedEventCardProps) {
         </Badge>
       </div>
 
-      <CardContent className="p-5 space-y-4">
+      <CardContent className="py-2 space-y-2">
         {/* Title and Description */}
         <div className="space-y-2">
           <h2 className="text-xl font-bold line-clamp-1">{event.title}</h2>
@@ -66,14 +72,16 @@ export default function JoinedEventCard({ event }: JoinedEventCardProps) {
 
         {/* Event Information */}
         <div className="space-y-3">
-          <div className="flex items-center gap-3 text-sm">
-            <CalendarDays className="h-4 w-4 text-primary" />
-            <span>{event.eventDate}</span>
-          </div>
+          <div className="flex justify-between">
+            <div className="flex items-center gap-3 text-sm">
+              <CalendarDays className="h-4 w-4 text-primary" />
+              <span>{formattedDate}</span>
+            </div>
 
-          <div className="flex items-center gap-3 text-sm">
-            <Clock className="h-4 w-4 text-primary" />
-            <span>{event.eventTime}</span>
+            <div className="flex items-center gap-3 text-sm">
+              <Clock className="h-4 w-4 text-primary" />
+              <span>{formattedTime}</span>
+            </div>
           </div>
 
           <div className="flex items-center gap-3 text-sm">
