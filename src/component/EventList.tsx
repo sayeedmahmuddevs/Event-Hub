@@ -4,39 +4,23 @@ import { useEffect, useState } from "react";
 import EventCard from "@/component/EventCards";
 import { EventType } from "@/type";
 import NoEvents from "./NoEvents";
+import Loading from "./loading";
 
-interface EventListProps{
-  api:string
+interface EventListProps {
+  api: string;
 }
 
-export default function EventList({api} : EventListProps) {
+export default function EventList({ api }: EventListProps) {
   const [events, setEvents] = useState<EventType[]>([]);
   const [loading, setLoading] = useState(true);
-
-  const fetchEvents = async () => {
-    try {
-      const res = await fetch(api, {
-        cache: "no-store",
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to fetch events");
-      }
-
-      const data: EventType[] = await res.json();
-      setEvents(data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
     let ignore = false;
 
-    const loadEvents = async () => {
+    const fetchEvents = async () => {
       try {
+        setLoading(true);
+
         const res = await fetch(api, {
           cache: "no-store",
         });
@@ -59,18 +43,37 @@ export default function EventList({api} : EventListProps) {
       }
     };
 
-    loadEvents();
+    fetchEvents();
 
     return () => {
       ignore = true;
     };
   }, [api]);
 
+  const fetchUpdatedEvents = async () => {
+    try {
+      setLoading(true);
+
+      const res = await fetch(api, {
+        cache: "no-store",
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch events");
+      }
+
+      const data: EventType[] = await res.json();
+      setEvents(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (loading) {
-    return <p className="p-6">Loading events...</p>;
+    return <Loading />;
   }
-
-
 
   return (
     <div>
@@ -82,7 +85,7 @@ export default function EventList({api} : EventListProps) {
             <EventCard
               key={cd._id}
               cd={cd}
-              onUpdated={fetchEvents}
+              onUpdated={fetchUpdatedEvents}
               eventCount={events.length}
             />
           ))}

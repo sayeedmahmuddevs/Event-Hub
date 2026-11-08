@@ -1,6 +1,7 @@
 "use client";
 
 import EventList from "@/component/EventList";
+import Loading from "@/component/loading";
 import { authClient } from "@/lib/auth-client";
 
 export default function Page() {
@@ -9,7 +10,7 @@ export default function Page() {
   const userId = session.data?.user.id;
 
   if (session.isPending) {
-    return <p>Loading user...</p>;
+    return <Loading/>;
   }
 
   if (!userId) {

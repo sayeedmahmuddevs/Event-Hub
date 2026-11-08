@@ -4,6 +4,7 @@ import { authClient } from "@/lib/auth-client";
 import { useEffect, useState } from "react";
 import { EventType } from "@/type";
 import JoinedEventCard from "@/component/JoinedEventCard";
+import Loading from "@/component/loading";
 
 
 export default function Page() {
@@ -38,7 +39,7 @@ export default function Page() {
  
 
   if (session.isPending) {
-    return <p>Loading...</p>;
+    return <Loading/>;
   }
 
   if (!user) {

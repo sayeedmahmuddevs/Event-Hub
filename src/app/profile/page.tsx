@@ -13,6 +13,7 @@ type ProfileForm = {
   profession: string;
   website: string;
   bio: string;
+  
 };
 
 const emptyForm: ProfileForm = {
@@ -45,6 +46,7 @@ export default function ProfilePage() {
         profession: user.profession ?? "",
         website: user.website ?? "",
         bio: user.bio ?? "",
+        
       });
     }
   }, [user]);

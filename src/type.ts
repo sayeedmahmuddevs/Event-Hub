@@ -24,4 +24,12 @@ export interface UserType {
   phone?: string;
   profession?: string;
   website?: string;
+  username?: string
 }
+
+export type JoinedEventType = {
+  _id: string;
+  eventId: string;
+  userId: string;
+  joinedAt: string;
+};

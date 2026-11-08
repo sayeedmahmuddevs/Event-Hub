@@ -87,6 +87,7 @@ export default function SignUpPage() {
       imgUrl: string;
       password: string;
     };
+    const username = `@${user.email.split("@")[0]}`;
 
     try {
       const { data, error } = await authClient.signUp.email({
@@ -94,6 +95,7 @@ export default function SignUpPage() {
         email: user.email,
         password: user.password,
         image: user.imgUrl,
+        username : username
       });
 
       if (error) {

@@ -1,15 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { EventType } from "@/type";
+import { EventType, JoinedEventType } from "@/type";
 import {
   CalendarDays,
   MapPin,
   Clock,
   UserRound,
   Tag,
-  Link,
   ArrowRight,
+  Users,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -18,6 +18,7 @@ import { useEffect, useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import formatEventDate from "./DateFormate";
+import Link from "next/link";
 
 interface EventDetailsProps {
   card: EventType;
@@ -32,6 +33,7 @@ export default function EventDetails({ card }: EventDetailsProps) {
   const user = session.data?.user;
 
   const [organizer, setOrganizer] = useState<OrganizerType | null>(null);
+  const [eventPeople, setEventPeople] = useState<JoinedEventType[]>([]);
 
   // Fetch organizer information
   useEffect(() => {
@@ -54,6 +56,32 @@ export default function EventDetails({ card }: EventDetailsProps) {
       fetchUser();
     }
   }, [card.userId]);
+
+// single event joned people
+  useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const res = await fetch(
+        `http://localhost:8000/joined-event/events/${card._id}`,
+        { cache: "no-store" }
+      );
+
+      if (!res.ok) {
+        throw new Error("User not found");
+      }
+
+      const data = await res.json();
+      setEventPeople(data);
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  if (card._id) {
+    fetchUser();
+  }
+}, [card._id]);
 
   // added event
 
@@ -147,6 +175,8 @@ export default function EventDetails({ card }: EventDetailsProps) {
               title="Organizer"
               value={card.userName}
             />
+
+            <Info icon={<Users />} title="Joined People" value={String(eventPeople.length)} />
           </CardContent>
         </Card>
 
@@ -171,11 +201,13 @@ export default function EventDetails({ card }: EventDetailsProps) {
                 <p className="text-sm text-slate-500">{card.userName}</p>
               </div>
             </div>
-
-            <Button className="">
+            <Link href={`/users/${card.userName}`}>
+              <Button className="">
               <ArrowRight className="ml-2" />
               View Profile
             </Button>
+            </Link>
+            
           </CardContent>
         </Card>
 
