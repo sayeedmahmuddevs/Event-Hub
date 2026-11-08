@@ -17,13 +17,17 @@ import {
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { authClient } from "@/lib/auth-client";
+
 
 interface DeleteEventProps {
-  id: string;
+  id: string
   onDeleted?: () => void;
 }
 
 export function DeleteEvent({ id, onDeleted }: DeleteEventProps) {
+  const session = authClient.useSession();
+  const user = session.data?.user
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -35,7 +39,14 @@ export function DeleteEvent({ id, onDeleted }: DeleteEventProps) {
         `http://localhost:8000/events/${id}`,
         {
           method: "DELETE",
-        }
+          headers: {
+            "Content-Type" : "application/json"
+          },
+          body : JSON.stringify({
+            userId:user?.id
+          })
+        },
+      
       );
 
       const data = await res.json();

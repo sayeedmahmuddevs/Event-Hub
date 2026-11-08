@@ -50,7 +50,7 @@ const navItems = [
   },
   {
     title: "Joined Events",
-    href: "/joined-events",
+    href: "/events/joined-events",
     icon: CalendarCheck,
   },
 

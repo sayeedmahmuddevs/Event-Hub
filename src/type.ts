@@ -1,23 +1,27 @@
 export interface EventType {
   _id: string;
+  userName: string;
+  userId: string;
   title: string;
-  type: string;
+  type: "volunteer" | "conference" | "workshop" | "other";
   eventDate: string;
+  eventTime: string;
   location: string;
   thumbnail: string;
   description: string;
+  createdDate: string;
 }
-
 export interface UserType {
-  id: string;
-  createdAt: Date;
-  updatedAt: Date;
+  _id: string;
+  name: string;
   email: string;
   emailVerified: boolean;
-  name: string;
-  image?: string | null | undefined;
-  number?: number | null | undefined;
-  location?: string | null | undefined;
-  profession: string | null | undefined;
-  website : string | null | undefined
+  image: string;
+  createdAt: string | Date;
+  updatedAt: string | Date;
+  bio?: string;
+  location?: string;
+  phone?: string;
+  profession?: string;
+  website?: string;
 }

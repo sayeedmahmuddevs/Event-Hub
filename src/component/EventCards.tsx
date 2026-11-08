@@ -15,6 +15,7 @@ import { EventType } from "@/type";
 import Link from "next/link";
 import EditEvents from "./EditEvents";
 import { DeleteEvent } from "./DeleteEvent";
+import { authClient } from "@/lib/auth-client";
 
 
 interface eventCardProps {
@@ -25,6 +26,10 @@ interface eventCardProps {
 }
 
 export default function EventCard({ cd, onUpdated }: eventCardProps) {
+  const session = authClient.useSession();
+  const user = session.data?.user
+
+  const isWoner = user?.id === cd.userId;
   return (
 <Card className=" overflow-hidden max-w-sm rounded-xl shadow-md hover:shadow-lg transition-shadow">
       {/* Thumbnail */}
@@ -70,8 +75,8 @@ export default function EventCard({ cd, onUpdated }: eventCardProps) {
             View
           </Button>
         </Link>
-
-        <button>
+        {isWoner && <>
+            <button>
           <EditEvents event={cd}
           onEdited = {onUpdated}
           />
@@ -82,6 +87,10 @@ export default function EventCard({ cd, onUpdated }: eventCardProps) {
             onDeleted = {onUpdated}
             />
         </button>
+        </>
+        
+      }
+        
       </CardFooter>
     </Card>
   );

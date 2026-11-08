@@ -50,7 +50,6 @@ export default function CreateEvent() {
       };
 
       const response = await fetch("http://localhost:8000/events", {
-
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -170,6 +169,25 @@ export default function CreateEvent() {
                     min={new Date().toISOString().split("T")[0]}
                     required
                     className="h-12 rounded-xl border-slate-200 bg-slate-50 pl-11 focus-visible:ring-violet-500"
+                  />
+                </div>
+              </div>
+            {/* eventTime */}
+              <div className="space-y-2">
+                <Label
+                  htmlFor="eventTime"
+                  className="font-semibold text-slate-700"
+                >
+                  Event Start Time
+                </Label>
+
+                <div className="relative">
+                  <Input
+                    id="eventTime"
+                    name="eventTime"
+                    type="time"
+                    required
+                    className="h-12 rounded-xl border-slate-200 bg-slate-50 focus-visible:ring-violet-500"
                   />
                 </div>
               </div>

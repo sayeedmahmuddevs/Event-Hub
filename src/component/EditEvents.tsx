@@ -35,6 +35,7 @@ import {
 
 import { useState } from "react";
 import { EventType } from "@/type";
+import { authClient } from "@/lib/auth-client";
 
 interface EditEventsProps{
     event: EventType
@@ -44,6 +45,8 @@ interface EditEventsProps{
 
 
 export default function EditEvents({ event,onEdited }: EditEventsProps) {
+  const session = authClient.useSession();
+  const user = session.data?.user
   const [open, setOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -60,7 +63,10 @@ export default function EditEvents({ event,onEdited }: EditEventsProps) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(eventData),
+          body: JSON.stringify({
+            userId: user?.id,
+            ...eventData
+          }),
         },
       );
       

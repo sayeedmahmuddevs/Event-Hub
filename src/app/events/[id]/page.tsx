@@ -9,6 +9,8 @@ interface PageProps {
 }
 
 async function EventData({ id }: { id: string }) {
+
+  
   const res = await fetch(
     `http://localhost:8000/events/${id}`,
     {
