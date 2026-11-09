@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -19,15 +20,15 @@ import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 
-
 interface DeleteEventProps {
-  id: string
+  id: string;
   onDeleted?: () => void;
 }
 
 export function DeleteEvent({ id, onDeleted }: DeleteEventProps) {
   const session = authClient.useSession();
-  const user = session.data?.user
+  const user = session.data?.user;
+
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -40,13 +41,12 @@ export function DeleteEvent({ id, onDeleted }: DeleteEventProps) {
         {
           method: "DELETE",
           headers: {
-            "Content-Type" : "application/json"
+            "Content-Type": "application/json",
           },
-          body : JSON.stringify({
-            userId:user?.id
-          })
-        },
-      
+          body: JSON.stringify({
+            userId: user?.id,
+          }),
+        }
       );
 
       const data = await res.json();
@@ -62,7 +62,9 @@ export function DeleteEvent({ id, onDeleted }: DeleteEventProps) {
 
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "Something went wrong!"
+        error instanceof Error
+          ? error.message
+          : "Something went wrong!"
       );
     } finally {
       setLoading(false);
@@ -77,37 +79,65 @@ export function DeleteEvent({ id, onDeleted }: DeleteEventProps) {
           size="sm"
           className="flex-1"
         >
-          <Trash2 className="h-4 w-4 mr-1" />
+          <Trash2 className="mr-1 h-4 w-4" />
           Delete
         </Button>
       </AlertDialogTrigger>
 
-      <AlertDialogContent>
+      <AlertDialogContent className="
+        border-gray-200 bg-white text-gray-900
+        dark:border-gray-700 dark:bg-[#17152f] dark:text-white
+        transition-colors duration-300
+      ">
         <AlertDialogHeader>
-          <AlertDialogTitle>
+
+          {/* Title */}
+          <AlertDialogTitle className="
+            text-gray-900 dark:text-white
+          ">
             Are you absolutely sure?
           </AlertDialogTitle>
 
-          <AlertDialogDescription>
+          {/* Description */}
+          <AlertDialogDescription className="
+            text-gray-600 dark:text-gray-400
+          ">
             This action cannot be undone. This event will be permanently deleted.
           </AlertDialogDescription>
+
         </AlertDialogHeader>
 
         <AlertDialogFooter>
-          <AlertDialogCancel disabled={loading}>
+
+          {/* Cancel */}
+          <AlertDialogCancel
+            disabled={loading}
+            className="
+              border-gray-300 bg-white text-gray-700
+              hover:bg-gray-100
+              dark:border-gray-600 dark:bg-gray-800
+              dark:text-gray-200 dark:hover:bg-gray-700
+            "
+          >
             Cancel
           </AlertDialogCancel>
 
+          {/* Delete */}
           <AlertDialogAction
             disabled={loading}
             onClick={(e) => {
               e.preventDefault();
               handleDeleteEvent();
             }}
-            className="bg-red-600 hover:bg-red-700"
+            className="
+              bg-red-600 text-white
+              hover:bg-red-700
+              dark:bg-red-600 dark:hover:bg-red-700
+            "
           >
             {loading ? "Deleting..." : "Delete"}
           </AlertDialogAction>
+
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

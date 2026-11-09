@@ -77,7 +77,7 @@ console.log(eventPeople)
           className="h-full w-full object-cover"
         />
         <div>
-        <Badge className="absolute top-3 left-3 bg-green-600 hover:bg-green-600 text-white gap-1">
+        <Badge className={`absolute top-3 left-3 ${isJoined ? "bg-green-600" : "bg-blue-600" } hover:bg-green-600 text-white gap-1`}>
           <CheckCircle2 className="h-3.5 w-3.5" />
           {isJoined? "Joined" : "Join"}
         </Badge>

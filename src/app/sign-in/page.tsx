@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 import {
   Mail,
@@ -33,6 +34,7 @@ import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 
 export default function SignInPage() {
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
@@ -59,7 +61,7 @@ export default function SignInPage() {
 
       if (data) {
         toast.success("Log in successfully!");
-        window.location.assign("/");
+        router.push("/");
       }
     } catch (error) {
       console.error(error);
@@ -282,6 +284,7 @@ export default function SignInPage() {
                 </div>
 
                 {/* Login Button */}
+                
                 <Button
                   type="submit"
                   className="group h-12 w-full rounded-xl bg-blue-600 text-base font-bold text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-700"
@@ -292,6 +295,7 @@ export default function SignInPage() {
                     className="ml-2 transition-transform group-hover:translate-x-1"
                   />
                 </Button>
+                
               </form>
 
               {/* Divider */}

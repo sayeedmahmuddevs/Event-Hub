@@ -5,14 +5,13 @@ import { useEffect, useState } from "react";
 import { EventType } from "@/type";
 import JoinedEventCard from "@/component/JoinedEventCard";
 import Loading from "@/component/loading";
-
+import NoEvents from "@/component/NoEvents";
 
 export default function Page() {
   const session = authClient.useSession();
   const user = session.data?.user;
 
   const [joinedEvents, setJoinedEvents] = useState<EventType[]>([]);
-  
 
   // Fetch user's joined events
   useEffect(() => {
@@ -36,25 +35,26 @@ export default function Page() {
 
     fetchJoinedEvents();
   }, [user?.id]);
- 
 
   if (session.isPending) {
-    return <Loading/>;
+    return <Loading />;
   }
 
   if (!user) {
     return <p>Please login first!</p>;
   }
 
-  
-  
-
-
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 ml-5 mt-5">
-      {joinedEvents.map((event) => (
-        <JoinedEventCard key={event._id} event={event} />
-      ))}
+    <div>
+      {joinedEvents.length === 0 ? (
+        <NoEvents />
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 ml-5 mt-5">
+          {joinedEvents.map((event) => (
+            <JoinedEventCard key={event._id} event={event} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

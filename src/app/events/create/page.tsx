@@ -1,6 +1,8 @@
+
 "use client";
 
 import { useState } from "react";
+import { useTheme } from "next-themes";
 import {
   CalendarDays,
   MapPin,
@@ -24,11 +26,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 import { authClient } from "@/lib/auth-client";
 
 export default function CreateEvent() {
   const userData = authClient.useSession();
   const user = userData.data?.user;
+
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
+
   const [thumbnail, setThumbnail] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -42,8 +49,9 @@ export default function CreateEvent() {
     try {
       const formData = new FormData(e.currentTarget);
       const eventData = Object.fromEntries(formData.entries());
+
       const datas = {
-        userName: "@" + user?.email.split("@")[0],
+        userName: "@" + user?.email?.split("@")[0],
         userId: user?.id,
         ...eventData,
         createdDate: new Date().toLocaleString("en-US"),
@@ -63,45 +71,85 @@ export default function CreateEvent() {
         throw new Error(data.message || "Event creation failed");
       }
 
-      console.log("Event created:", data);
-
       toast.success("Event created successfully!");
+      e.currentTarget.reset();
+      setThumbnail("");
     } catch (error) {
       console.error(error);
+      toast.error(
+        error instanceof Error ? error.message : "Something went wrong!"
+      );
     }
   };
 
+  const labelClass = `font-semibold ${
+    isDark ? "text-gray-200" : "text-slate-700"
+  }`;
+
+  const inputClass = `h-12 rounded-xl pl-11 transition-colors ${
+    isDark
+      ? "border-gray-700 bg-gray-800 text-white placeholder:text-gray-500 focus-visible:ring-violet-500"
+      : "border-slate-200 bg-slate-50 text-gray-900 placeholder:text-slate-400 focus-visible:ring-violet-500"
+  }`;
+
+  const selectClass = `h-12 rounded-xl ${
+    isDark
+      ? "border-gray-700 bg-gray-800 text-white"
+      : "border-slate-200 bg-slate-50 text-gray-900"
+  }`;
+
   return (
-    <div className="min-h-screen bg-[#f5f4fa] px-4 py-12 sm:px-6">
+    <div
+      className={`min-h-screen px-4 py-12 transition-colors duration-300 sm:px-6 ${
+        isDark ? "bg-[#0f0d20]" : "bg-[#f5f4fa]"
+      }`}
+    >
       <motion.div
         initial={{ opacity: 0, y: 35 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
         className="mx-auto max-w-3xl"
       >
-        {/* Form Card */}
-
         <motion.div
           initial={{ opacity: 0, scale: 0.97, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="rounded-3xl border border-slate-200 bg-white p-5 shadow-xl shadow-violet-900/5 sm:p-9"
+          className={`rounded-3xl border p-5 shadow-xl transition-colors duration-300 sm:p-9 ${
+            isDark
+              ? "border-gray-800 bg-[#17152f] shadow-black/20"
+              : "border-slate-200 bg-white shadow-violet-900/5"
+          }`}
         >
-          <div className="mb-8 border-b border-slate-100 pb-6">
-            <h2 className="text-xl font-bold text-slate-800">
+          {/* Header */}
+
+          <div
+            className={`mb-8 border-b pb-6 ${
+              isDark ? "border-gray-700" : "border-slate-100"
+            }`}
+          >
+            <h2
+              className={`text-xl font-bold ${
+                isDark ? "text-white" : "text-slate-800"
+              }`}
+            >
               Event Information
             </h2>
 
-            <p className="mt-2 text-sm text-slate-400">
+            <p
+              className={`mt-2 text-sm ${
+                isDark ? "text-gray-400" : "text-slate-400"
+              }`}
+            >
               Provide all the necessary information about your event.
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
+
             {/* Event Title */}
 
             <div className="space-y-2">
-              <Label htmlFor="title" className="font-semibold text-slate-700">
+              <Label htmlFor="title" className={labelClass}>
                 Event Title
               </Label>
 
@@ -113,38 +161,57 @@ export default function CreateEvent() {
                   name="title"
                   placeholder="Enter your event title"
                   required
-                  className="h-12 rounded-xl border-slate-200 bg-slate-50 pl-11 focus-visible:ring-violet-500"
+                  className={inputClass}
                 />
               </div>
             </div>
 
-            {/* Event Type */}
+            {/* Event Type, Date and Time */}
 
-            <div className="flex justify-between">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+
+              {/* Event Type */}
+
               <div className="space-y-2">
-                <Label htmlFor="type" className="font-semibold text-slate-700">
+                <Label htmlFor="type" className={labelClass}>
                   Event Type
                 </Label>
 
                 <Select name="type" required>
-                  <SelectTrigger className="h-12 rounded-xl border-slate-200 bg-slate-50 focus:ring-violet-500">
+                  <SelectTrigger className={selectClass}>
                     <SelectValue placeholder="Select event category" />
                   </SelectTrigger>
 
-                  <SelectContent>
+                  <SelectContent
+                    className={
+                      isDark
+                        ? "border-gray-700 bg-[#17152f] text-white"
+                        : ""
+                    }
+                  >
                     <SelectItem value="winter-clothing">
                       Winter Clothing Donation
                     </SelectItem>
 
-                    <SelectItem value="food-donation">Food Donation</SelectItem>
+                    <SelectItem value="food-donation">
+                      Food Donation
+                    </SelectItem>
 
-                    <SelectItem value="volunteer">Volunteer Event</SelectItem>
+                    <SelectItem value="volunteer">
+                      Volunteer Event
+                    </SelectItem>
 
-                    <SelectItem value="fundraising">Fundraising</SelectItem>
+                    <SelectItem value="fundraising">
+                      Fundraising
+                    </SelectItem>
 
-                    <SelectItem value="community">Community Support</SelectItem>
+                    <SelectItem value="community">
+                      Community Support
+                    </SelectItem>
 
-                    <SelectItem value="other">Other</SelectItem>
+                    <SelectItem value="other">
+                      Other
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -152,10 +219,7 @@ export default function CreateEvent() {
               {/* Event Date */}
 
               <div className="space-y-2">
-                <Label
-                  htmlFor="eventDate"
-                  className="font-semibold text-slate-700"
-                >
+                <Label htmlFor="eventDate" className={labelClass}>
                   Event Date
                 </Label>
 
@@ -168,37 +232,32 @@ export default function CreateEvent() {
                     type="date"
                     min={new Date().toISOString().split("T")[0]}
                     required
-                    className="h-12 rounded-xl border-slate-200 bg-slate-50 pl-11 focus-visible:ring-violet-500"
+                    className={inputClass}
                   />
                 </div>
               </div>
-            {/* eventTime */}
-              <div className="space-y-2">
-                <Label
-                  htmlFor="eventTime"
-                  className="font-semibold text-slate-700"
-                >
+
+              {/* Event Time */}
+
+              <div className="space-y-2 sm:col-span-2">
+                <Label htmlFor="eventTime" className={labelClass}>
                   Event Start Time
                 </Label>
 
-                <div className="relative">
-                  <Input
-                    id="eventTime"
-                    name="eventTime"
-                    type="time"
-                    required
-                    className="h-12 rounded-xl border-slate-200 bg-slate-50 focus-visible:ring-violet-500"
-                  />
-                </div>
+                <Input
+                  id="eventTime"
+                  name="eventTime"
+                  type="time"
+                  required
+                  className={selectClass}
+                />
               </div>
             </div>
+
             {/* Location */}
 
             <div className="space-y-2">
-              <Label
-                htmlFor="location"
-                className="font-semibold text-slate-700"
-              >
+              <Label htmlFor="location" className={labelClass}>
                 Event Location
               </Label>
 
@@ -210,7 +269,7 @@ export default function CreateEvent() {
                   name="location"
                   placeholder="Enter event location"
                   required
-                  className="h-12 rounded-xl border-slate-200 bg-slate-50 pl-11 focus-visible:ring-violet-500"
+                  className={inputClass}
                 />
               </div>
             </div>
@@ -218,10 +277,7 @@ export default function CreateEvent() {
             {/* Thumbnail URL */}
 
             <div className="space-y-2">
-              <Label
-                htmlFor="thumbnail"
-                className="font-semibold text-slate-700"
-              >
+              <Label htmlFor="thumbnail" className={labelClass}>
                 Thumbnail Image URL
               </Label>
 
@@ -236,11 +292,15 @@ export default function CreateEvent() {
                   value={thumbnail}
                   onChange={(e) => setThumbnail(e.target.value)}
                   required
-                  className="h-12 rounded-xl border-slate-200 bg-slate-50 pl-11 focus-visible:ring-violet-500"
+                  className={inputClass}
                 />
               </div>
 
-              <p className="text-xs text-slate-400">
+              <p
+                className={`text-xs ${
+                  isDark ? "text-gray-500" : "text-slate-400"
+                }`}
+              >
                 Paste your event image URL here.
               </p>
             </div>
@@ -248,10 +308,7 @@ export default function CreateEvent() {
             {/* Description */}
 
             <div className="space-y-2">
-              <Label
-                htmlFor="description"
-                className="font-semibold text-slate-700"
-              >
+              <Label htmlFor="description" className={labelClass}>
                 Event Description
               </Label>
 
@@ -264,7 +321,11 @@ export default function CreateEvent() {
                   placeholder="Describe your event, its purpose and activities..."
                   rows={6}
                   required
-                  className="resize-none rounded-xl border-slate-200 bg-slate-50 pl-11 pt-3 focus-visible:ring-violet-500"
+                  className={`resize-none rounded-xl pl-11 pt-3 transition-colors ${
+                    isDark
+                      ? "border-gray-700 bg-gray-800 text-white placeholder:text-gray-500 focus-visible:ring-violet-500"
+                      : "border-slate-200 bg-slate-50 text-gray-900 placeholder:text-slate-400 focus-visible:ring-violet-500"
+                  }`}
                 />
               </div>
             </div>
@@ -281,8 +342,12 @@ export default function CreateEvent() {
           </form>
         </motion.div>
 
-        <p className="mt-6 text-center text-xs text-slate-400">
-          Made with care by EventHub
+        <p
+          className={`mt-6 text-center text-xs ${
+            isDark ? "text-gray-500" : "text-slate-400"
+          }`}
+        >
+          Made with care by EventHub ❤️
         </p>
       </motion.div>
     </div>

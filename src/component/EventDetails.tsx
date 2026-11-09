@@ -124,7 +124,7 @@ export default function EventDetails({ card }: EventDetailsProps) {
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 px-4 py-10">
+    <div className="min-h-screen dark:bg-black bg-slate-50 px-4 py-10">
       <div className="mx-auto max-w-4xl">
         {/* Event Image */}
         <div className="relative h-64 overflow-hidden rounded-2xl md:h-96">

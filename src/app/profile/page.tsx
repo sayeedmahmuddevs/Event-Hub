@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 
@@ -13,7 +14,6 @@ type ProfileForm = {
   profession: string;
   website: string;
   bio: string;
-  
 };
 
 const emptyForm: ProfileForm = {
@@ -30,10 +30,12 @@ export default function ProfilePage() {
   const session = authClient.useSession();
   const user = session.data?.user;
 
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-
   const [form, setForm] = useState<ProfileForm>(emptyForm);
 
   useEffect(() => {
@@ -46,7 +48,6 @@ export default function ProfilePage() {
         profession: user.profession ?? "",
         website: user.website ?? "",
         bio: user.bio ?? "",
-        
       });
     }
   }, [user]);
@@ -77,9 +78,7 @@ export default function ProfilePage() {
         bio: form.bio,
       });
 
-      if (error) {
-        throw new Error(error.message);
-      }
+      if (error) throw new Error(error.message);
 
       setEditing(false);
       setMessage("Profile updated successfully!");
@@ -111,15 +110,40 @@ export default function ProfilePage() {
     setMessage("");
   };
 
-  const inputStyle =
-    "w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm outline-none focus:border-violet-500";
+  const inputStyle = `w-full rounded-xl border px-4 py-3 text-sm outline-none transition-all focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 ${
+    isDark
+      ? "border-slate-700 bg-[#211e3d] text-white placeholder:text-slate-500"
+      : "border-gray-200 bg-gray-50 text-gray-900 placeholder:text-gray-400"
+  }`;
+
+  const labelStyle = `mb-2 block text-sm font-semibold ${
+    isDark ? "text-gray-200" : "text-gray-700"
+  }`;
+
+  const displayStyle = `rounded-xl p-3 break-words ${
+    isDark
+      ? "bg-[#211e3d] text-gray-200"
+      : "bg-gray-50 text-gray-800"
+  }`;
 
   if (session.isPending) {
-    return <div className="p-10">Loading...</div>;
+    return (
+      <div className={`min-h-screen p-10 ${
+        isDark ? "bg-[#0f0d20] text-white" : "bg-[#f7f7fb] text-gray-900"
+      }`}>
+        Loading...
+      </div>
+    );
   }
 
   if (!user) {
-    return <div className="p-10">Please login first.</div>;
+    return (
+      <div className={`min-h-screen p-10 ${
+        isDark ? "bg-[#0f0d20] text-white" : "bg-[#f7f7fb] text-gray-900"
+      }`}>
+        Please login first.
+      </div>
+    );
   }
 
   const fields = [
@@ -130,15 +154,26 @@ export default function ProfilePage() {
   ] as const;
 
   return (
-    <main className="min-h-screen bg-[#f7f7fb] px-4 py-10">
+    <main
+      className={`min-h-screen px-4 py-10 transition-colors duration-300 ${
+        isDark ? "bg-[#0f0d20]" : "bg-[#f7f7fb]"
+      }`}
+    >
       <div className="mx-auto max-w-4xl">
+
+        {/* Header */}
 
         <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1 className={`text-3xl font-bold ${
+              isDark ? "text-white" : "text-gray-900"
+            }`}>
               My Profile
             </h1>
-            <p className="mt-2 text-sm text-gray-500">
+
+            <p className={`mt-2 text-sm ${
+              isDark ? "text-gray-400" : "text-gray-500"
+            }`}>
               Manage your personal information.
             </p>
           </div>
@@ -149,7 +184,7 @@ export default function ProfilePage() {
                 setMessage("");
                 setEditing(true);
               }}
-              className="rounded-xl bg-violet-600 px-5 py-3 text-white"
+              className="rounded-xl bg-violet-600 px-5 py-3 font-semibold text-white transition hover:bg-violet-700"
             >
               Edit Profile
             </button>
@@ -158,7 +193,11 @@ export default function ProfilePage() {
               <button
                 onClick={handleCancel}
                 disabled={loading}
-                className="rounded-xl border bg-white px-4 py-3"
+                className={`rounded-xl border px-4 py-3 transition disabled:opacity-50 ${
+                  isDark
+                    ? "border-slate-700 bg-[#211e3d] text-gray-200 hover:bg-slate-700"
+                    : "border-gray-200 bg-white text-gray-700 hover:bg-gray-100"
+                }`}
               >
                 Cancel
               </button>
@@ -166,7 +205,7 @@ export default function ProfilePage() {
               <button
                 onClick={handleSave}
                 disabled={loading}
-                className="rounded-xl bg-violet-600 px-5 py-3 text-white disabled:opacity-50"
+                className="rounded-xl bg-violet-600 px-5 py-3 font-semibold text-white transition hover:bg-violet-700 disabled:opacity-50"
               >
                 {loading ? "Saving..." : "Save Changes"}
               </button>
@@ -174,22 +213,43 @@ export default function ProfilePage() {
           )}
         </div>
 
+        {/* Message */}
+
         {message && (
-          <p className="mb-5 rounded-xl bg-violet-50 p-4 text-sm text-violet-700">
+          <p className={`mb-5 rounded-xl p-4 text-sm ${
+            message.includes("successfully")
+              ? isDark
+                ? "bg-green-500/10 text-green-400"
+                : "bg-green-50 text-green-700"
+              : isDark
+                ? "bg-red-500/10 text-red-400"
+                : "bg-red-50 text-red-700"
+          }`}>
             {message}
           </p>
         )}
 
-        <section className="rounded-3xl border bg-white p-6 shadow-sm md:p-8">
+        {/* Profile Card */}
 
-          <div className="mb-7 flex items-center gap-4">
+        <section className={`rounded-3xl border p-6 shadow-sm transition-colors duration-300 md:p-8 ${
+          isDark
+            ? "border-slate-800 bg-[#17152f] shadow-black/20"
+            : "border-gray-200 bg-white"
+        }`}>
+
+          {/* Profile Information */}
+
+          <div className={`mb-7 flex items-center gap-4 border-b pb-7 ${
+            isDark ? "border-slate-700" : "border-gray-100"
+          }`}>
             {form.image ? (
               <Image
                 src={form.image}
-                width={45}
-                height={40}
+                width={80}
+                height={80}
                 alt="Profile"
                 className="h-20 w-20 rounded-2xl object-cover"
+                unoptimized
               />
             ) : (
               <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-violet-100 text-3xl font-bold text-violet-600">
@@ -198,21 +258,32 @@ export default function ProfilePage() {
             )}
 
             <div>
-              <h2 className="text-xl font-bold">
+              <h2 className={`text-xl font-bold ${
+                isDark ? "text-white" : "text-gray-900"
+              }`}>
                 {user.name}
               </h2>
-              <p className="text-sm text-gray-500">
+
+              <p className={`text-sm ${
+                isDark ? "text-gray-400" : "text-gray-500"
+              }`}>
                 {user.email}
               </p>
+
+              <span className="mt-2 inline-block rounded-full bg-violet-500/10 px-3 py-1 text-xs font-semibold text-violet-500">
+                EventHub Member
+              </span>
             </div>
           </div>
 
+          {/* Form Fields */}
+
           <div className="grid gap-5 md:grid-cols-2">
 
+            {/* Full Name */}
+
             <div>
-              <label className="mb-2 block text-sm font-semibold">
-                Full Name
-              </label>
+              <label className={labelStyle}>Full Name</label>
 
               {editing ? (
                 <input
@@ -223,28 +294,23 @@ export default function ProfilePage() {
                   className={inputStyle}
                 />
               ) : (
-                <p className="rounded-xl bg-gray-50 p-3">
-                  {user.name}
-                </p>
+                <p className={displayStyle}>{user.name}</p>
               )}
             </div>
 
-            <div>
-              <label className="mb-2 block text-sm font-semibold">
-                Email Address
-              </label>
+            {/* Email */}
 
-              <p className="rounded-xl bg-gray-50 p-3">
-                {user.email}
-              </p>
+            <div>
+              <label className={labelStyle}>Email Address</label>
+              <p className={displayStyle}>{user.email}</p>
             </div>
 
-            <div className="md:col-span-2">
-              <label className={`mb-2 block text-sm font-semibold ${editing? "block" : "hidden"}`}>
-                Profile Image URL
-              </label>
+            {/* Profile Image */}
 
-              {editing ? (
+            {editing && (
+              <div className="md:col-span-2">
+                <label className={labelStyle}>Profile Image URL</label>
+
                 <input
                   name="image"
                   value={form.image}
@@ -252,18 +318,19 @@ export default function ProfilePage() {
                   placeholder="Enter image URL (optional)"
                   className={inputStyle}
                 />
-              ) : (
-                <p className="rounded-xl bg-gray-50 p-3 break-all hidden">
-                  {form.image || "No image added"}
-                </p>
-              )}
-            </div>
+              </div>
+            )}
+
+            {/* Other Fields */}
 
             {fields.map((field) => (
               <div key={field.name}>
-                <label className="mb-2 block text-sm font-semibold">
+                <label className={labelStyle}>
                   {field.label}
-                  <span className="ml-2 text-xs font-normal text-gray-400">
+
+                  <span className={`ml-2 text-xs font-normal ${
+                    isDark ? "text-gray-500" : "text-gray-400"
+                  }`}>
                     (Optional)
                   </span>
                 </label>
@@ -277,15 +344,17 @@ export default function ProfilePage() {
                     className={inputStyle}
                   />
                 ) : (
-                  <p className="rounded-xl bg-gray-50 p-3">
+                  <p className={displayStyle}>
                     {form[field.name] || "Not added"}
                   </p>
                 )}
               </div>
             ))}
 
+            {/* Bio */}
+
             <div className="md:col-span-2">
-              <label className="mb-2 block text-sm font-semibold">
+              <label className={labelStyle}>
                 About Me (Optional)
               </label>
 
@@ -296,10 +365,10 @@ export default function ProfilePage() {
                   onChange={handleChange}
                   rows={4}
                   placeholder="Write something about yourself..."
-                  className={inputStyle + " resize-none"}
+                  className={`${inputStyle} resize-none`}
                 />
               ) : (
-                <p className="rounded-xl bg-gray-50 p-4 leading-7">
+                <p className={`${displayStyle} leading-7`}>
                   {form.bio || "No bio added yet."}
                 </p>
               )}
@@ -307,6 +376,15 @@ export default function ProfilePage() {
 
           </div>
         </section>
+
+        {/* Footer */}
+
+        <p className={`mt-6 text-center text-xs ${
+          isDark ? "text-gray-500" : "text-gray-400"
+        }`}>
+          Made with care by EventHub ❤️
+        </p>
+
       </div>
     </main>
   );

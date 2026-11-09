@@ -4,7 +4,9 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/sonner";
 import ParentNav from "@/component/ParentNav";
+
 import MainLayout from "@/component/MainLayout";
+import { ThemeProvider } from "@/component/theme-provider";
 
 const ralewayHeading = Raleway({
   subsets: ["latin"],
@@ -43,12 +45,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       )}
     >
       <body className="min-h-full flex flex-col">
-        <ParentNav />
+        <ThemeProvider>
+          <ParentNav />
 
-        <MainLayout>
-          {children}
-          <Toaster position="top-center" richColors />
-        </MainLayout>
+          <MainLayout>
+            {children}
+            <Toaster position="top-center" richColors />
+          </MainLayout>
+        </ThemeProvider>
       </body>
     </html>
   );

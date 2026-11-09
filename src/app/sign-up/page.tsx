@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 import {
   User,
@@ -35,6 +36,7 @@ import { Separator } from "@/components/ui/separator";
 import { authClient } from "@/lib/auth-client";
 
 export default function SignUpPage() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -104,8 +106,8 @@ export default function SignUpPage() {
       }
 
       toast.success("Account created successfully!");
+      router.push("/");
 
-      console.log(data);
     } catch (error) {
       console.error(error);
       toast.error("Something went wrong!");
@@ -407,6 +409,7 @@ export default function SignUpPage() {
                 </div>
 
                 {/* Submit */}
+                
                 <Button
                   type="submit"
                   disabled={!isPasswordValid || password !== confirmPassword}
@@ -418,6 +421,7 @@ export default function SignUpPage() {
                     className="ml-2 transition-transform group-hover:translate-x-1"
                   />
                 </Button>
+                
               </form>
 
               {/* Divider */}
