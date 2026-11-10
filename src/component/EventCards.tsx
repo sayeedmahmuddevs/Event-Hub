@@ -60,9 +60,11 @@ useEffect(() => {
 }, [cd._id]);
 
 console.log(eventPeople)
-  const isJoined = eventPeople.some(
-    (item) => item.eventId === cd._id
-  )
+const isJoined = eventPeople.some(
+  (item) =>
+    item.eventId === cd._id &&
+    item.userId === user?.id
+);
 
 
   return (

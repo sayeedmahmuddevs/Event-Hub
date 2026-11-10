@@ -1,3 +1,4 @@
+
 "use client";
 
 import { authClient } from "@/lib/auth-client";
@@ -12,31 +13,53 @@ export default function Page() {
   const user = session.data?.user;
 
   const [joinedEvents, setJoinedEvents] = useState<EventType[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Fetch user's joined events
   useEffect(() => {
+    if (session.isPending) return;
+
     if (!user?.id) return;
+
+    const controller = new AbortController();
 
     const fetchJoinedEvents = async () => {
       try {
+        setLoading(true);
+
         const res = await fetch(
           `http://localhost:8000/joined-events/${user.id}`,
-          { cache: "no-store" },
+          {
+            cache: "no-store",
+            signal: controller.signal,
+          }
         );
 
-        if (!res.ok) throw new Error("Failed to fetch");
+        if (!res.ok) {
+          throw new Error("Failed to fetch joined events");
+        }
 
         const data = await res.json();
+
         setJoinedEvents(data);
+
       } catch (error) {
-        console.error(error);
+        if (error instanceof Error && error.name !== "AbortError") {
+          console.error("Joined events fetch error:", error);
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
       }
     };
 
     fetchJoinedEvents();
-  }, [user?.id]);
 
-  if (session.isPending) {
+    return () => controller.abort();
+
+  }, [user?.id, session.isPending]);
+
+  if (session.isPending || loading) {
     return <Loading />;
   }
 
@@ -51,7 +74,10 @@ export default function Page() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 ml-5 mt-5">
           {joinedEvents.map((event) => (
-            <JoinedEventCard key={event._id} event={event} />
+            <JoinedEventCard
+              key={event._id}
+              event={event}
+            />
           ))}
         </div>
       )}

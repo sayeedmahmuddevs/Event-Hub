@@ -39,48 +39,61 @@ export default function CreateEvent() {
   const [thumbnail, setThumbnail] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (userData.isPending) {
-      toast.info("Loading user...");
-      return;
+  const form = e.currentTarget; 
+
+  if (userData.isPending) {
+    toast.info("Loading user...");
+    return;
+  }
+
+  if (!user) {
+    toast.error("Please login first!");
+    return;
+  }
+
+  try {
+    const formData = new FormData(form);
+    const eventData = Object.fromEntries(formData.entries());
+
+    const datas = {
+      userName: "@" + user.email?.split("@")[0],
+      userId: user.id,
+      ...eventData,
+      title: String(eventData.title).trim(),
+      createdDate: new Date().toLocaleString("en-US"),
+    };
+
+    const response = await fetch("http://localhost:8000/events", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(datas),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Event creation failed");
     }
 
-    try {
-      const formData = new FormData(e.currentTarget);
-      const eventData = Object.fromEntries(formData.entries());
+    toast.success("Event created successfully!");
 
-      const datas = {
-        userName: "@" + user?.email?.split("@")[0],
-        userId: user?.id,
-        ...eventData,
-        createdDate: new Date().toLocaleString("en-US"),
-      };
+    form.reset(); 
+    setThumbnail("");
 
-      const response = await fetch("http://localhost:8000/events", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(datas),
-      });
+  } catch (error) {
+    console.error(error);
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Event creation failed");
-      }
-
-      toast.success("Event created successfully!");
-      e.currentTarget.reset();
-      setThumbnail("");
-    } catch (error) {
-      console.error(error);
-      toast.error(
-        error instanceof Error ? error.message : "Something went wrong!"
-      );
-    }
-  };
+    toast.error(
+      error instanceof Error
+        ? error.message
+        : "Something went wrong!"
+    );
+  }
+};
 
   const labelClass = `font-semibold ${
     isDark ? "text-gray-200" : "text-slate-700"
