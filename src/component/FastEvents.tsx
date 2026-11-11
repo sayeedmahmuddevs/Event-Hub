@@ -20,17 +20,7 @@ const PastEvents = () => {
         );
         const data = await res.json();
 
-        const now = new Date();
-
-        const pastEvents = data.filter((event: EventType) => {
-          const eventDateTime = new Date(
-            `${event.eventDate}T${event.eventTime}:00`,
-          );
-
-          return eventDateTime.getTime() < now.getTime();
-        });
-
-        setEvents(pastEvents);
+        setEvents(data);
       } catch (error) {
         console.error("Failed to fetch events:", error);
       } finally {
@@ -55,7 +45,7 @@ const PastEvents = () => {
             {events.map((event) => (
               <div
                 key={event._id}
-                className="overflow-hidden rounded-xl border bg-white shadow-sm"
+                className="overflow-hidden rounded-xl border dark:bg-gray-800 bg-white shadow-sm"
               >
                 <Image
                   src={event.thumbnail}
