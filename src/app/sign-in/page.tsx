@@ -52,6 +52,7 @@ export default function SignInPage() {
       const { data, error } = await authClient.signIn.email({
         email: user.email,
         password: user.password,
+        callbackURL: "/",
       });
 
       if (error) {
@@ -73,14 +74,12 @@ export default function SignInPage() {
     const data = await authClient.signIn.social({
       provider: "google",
     });
-    console.log(data);
   };
 
   const githubSignIn = async () => {
     const data = await authClient.signIn.social({
       provider: "github",
     });
-    console.log(data);
   };
 
   return (
