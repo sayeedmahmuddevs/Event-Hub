@@ -1,28 +1,34 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
 import { CalendarDays, Clock, MapPin } from "lucide-react";
-import { EventType } from "./JoinedEventCard";
+import type { EventType } from "./JoinedEventCard";
 import Image from "next/image";
 
 const PastEvents = () => {
   const [events, setEvents] = useState<EventType[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_CLIENT_LINK}/pastevents`,
-          {
-            cache: "no-store",
-          }
+          { cache: "no-store" }
         );
-        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch past events");
+        }
+
+        const data: EventType[] = await res.json();
 
         setEvents(data);
       } catch (error) {
-        console.error("Failed to fetch events:", error);
+        console.error(error);
+        setError("Failed to load past events.");
       } finally {
         setLoading(false);
       }
@@ -31,7 +37,13 @@ const PastEvents = () => {
     fetchEvents();
   }, []);
 
-  if (loading) return <p>Loading past events...</p>;
+  if (loading) {
+    return <p className="py-10 text-center">Loading past events...</p>;
+  }
+
+  if (error) {
+    return <p className="py-10 text-center text-red-500">{error}</p>;
+  }
 
   return (
     <section className="py-12">
@@ -39,19 +51,21 @@ const PastEvents = () => {
         <h2 className="mb-8 text-3xl font-bold">Past Events</h2>
 
         {events.length === 0 ? (
-          <p className="text-gray-500">No past events available.</p>
+          <p className="text-gray-500">
+            No past events available.
+          </p>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {events.map((event) => (
               <div
                 key={event._id}
-                className="overflow-hidden rounded-xl border dark:bg-gray-800 bg-white shadow-sm"
+                className="overflow-hidden rounded-xl border bg-white shadow-sm transition hover:shadow-lg"
               >
                 <Image
                   src={event.thumbnail}
                   alt={event.title}
-                  width={40}
-                  height={40}
+                  width={600}
+                  height={300}
                   className="h-52 w-full object-cover"
                 />
 
@@ -60,7 +74,9 @@ const PastEvents = () => {
                     {event.type}
                   </span>
 
-                  <h3 className="mt-4 text-xl font-bold">{event.title}</h3>
+                  <h3 className="mt-4 text-xl font-bold">
+                    {event.title}
+                  </h3>
 
                   <p className="mt-2 line-clamp-2 text-sm text-gray-500">
                     {event.description}
@@ -90,7 +106,7 @@ const PastEvents = () => {
               </div>
             ))}
           </div>
-        )} 
+        )}
       </div>
     </section>
   );
