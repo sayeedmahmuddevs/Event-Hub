@@ -1,36 +1,155 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# 🌍 EventHub – Social Development Events Platform
 
-First, run the development server:
+<p align="center">
+  <a href="https://event-hub-lilac-six.vercel.app">
+    <img src="https://img.shields.io/badge/Live%20Website-Visit%20EventHub-16A34A?style=for-the-badge" />
+  </a>
+  <img src="https://img.shields.io/badge/Next.js-Framework-black?style=for-the-badge&logo=next.js" />
+  <img src="https://img.shields.io/badge/TypeScript-Language-3178C6?style=for-the-badge&logo=typescript" />
+  <img src="https://img.shields.io/badge/MongoDB-Database-47A248?style=for-the-badge&logo=mongodb" />
+</p>
+
+## 🔗 Live Website
+
+**[Visit EventHub](https://event-hub-lilac-six.vercel.app)**
+
+## 📖 About The Project
+
+EventHub is a community-driven social development events platform where people can create, discover, join, and manage social service events in their local communities.
+
+The platform encourages people to participate in meaningful activities such as winter clothes distribution, food donation, tree plantation, community cleanup, and other volunteer initiatives.
+
+Our goal is to connect people and make social development activities easier to organize and participate in.
+
+## ✨ Key Features
+
+- **User Authentication:** Secure registration and login using email and password.
+- **Social Login:** Login using Google or GitHub (if configured).
+- **Create Events:** Authenticated users can create social service events.
+- **Upcoming Events:** Browse upcoming community events dynamically from the database.
+- **Event Details:** View complete information about individual events.
+- **Join Events:** Logged-in users can join community events.
+- **Joined Events:** Track all events joined by the authenticated user.
+- **Manage Events:** Users can update and delete their own created events.
+- **Past Events:** Explore previously scheduled community service events.
+- **Protected Routes:** Secure private pages and API endpoints.
+- **JWT Authentication:** Token-based API authorization.
+- **Responsive Design:** Optimized for mobile, tablet, and desktop.
+- **Dark/Light Theme:** Switch between dark and light modes.
+- **Community Gallery:** Explore photographs of social development activities.
+- **Newsletter Section:** A dedicated section for community updates.
+
+## 🛠️ Technologies Used
+
+### Frontend
+- Next.js (App Router)
+- React.js
+- TypeScript
+- Tailwind CSS
+- Lucide React
+- Next.js Image Optimization
+
+### Backend
+- Node.js
+- Express.js
+- MongoDB
+- JSON Web Token (JWT)
+
+### Authentication
+- Email & Password Authentication
+- Google/GitHub Authentication (if implemented)
+
+### Deployment & Tools
+- Vercel
+- Render
+- Git
+- GitHub
+
+## 📸 Project Activities
+
+EventHub supports different types of community service activities:
+
+- Winter Clothes Distribution
+- Food Donation
+- Tree Plantation
+- Community Cleanup
+- Volunteer Activities
+- Fundraising Campaigns
+- Social Development Programs
+
+## ⚙️ Installation & Setup
+
+Follow these steps to run the project locally.
+
+### 1. Clone the Repository
+
+```bash
+git clone YOUR_CLIENT_REPOSITORY_URL
+```
+
+### 2. Navigate to the Project Folder
+
+```bash
+cd EventHub
+```
+
+### 3. Install Dependencies
+
+```bash
+npm install
+```
+
+### 4. Configure Environment Variables
+
+Create a `.env.local` file in the root directory.
+
+```env
+NEXT_PUBLIC_CLIENT_LINK=YOUR_BACKEND_API_URL
+```
+
+Add other authentication-related environment variables if required.
+
+### 5. Run the Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🔐 Security Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- JWT-based API authentication.
+- Protected routes for authenticated users.
+- User-specific event management.
+- Authorization checks for event updates and deletions.
+- Secure environment variable configuration.
 
-## Learn More
+## 🎯 Project Purpose
 
-To learn more about Next.js, take a look at the following resources:
+EventHub aims to encourage community participation and create positive social impact.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+By connecting volunteers, event organizers, and community members, EventHub makes it easier to organize meaningful social service activities and build stronger communities.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🚀 Future Improvements
 
-## Deploy on Vercel
+- Real-time event notifications.
+- Advanced event search and filtering.
+- User profile customization.
+- Event participation analytics.
+- Community reviews and feedback.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 👨‍💻 Developer
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Sayeed Mahmud**
+
+GitHub: [@sayeedmahmuddevs](https://github.com/sayeedmahmuddevs)
+
+Live Project: [EventHub](https://event-hub-lilac-six.vercel.app)
+
+---
+
+<p align="center">
+  <b>🌱 EventHub – Together We Can Make a Difference.</b>
+</p>
