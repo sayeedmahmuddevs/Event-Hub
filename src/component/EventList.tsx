@@ -23,14 +23,14 @@ export default function EventList({ api }: EventListProps) {
 
     const fetchEvents = async () => {
       try {
-        const token = await clientToken()
+        const token = await clientToken();
         setLoading(true);
 
         const res = await fetch(api, {
           cache: "no-store",
-            headers : {
-        authorization :`Bearer ${token}` 
-      }
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
         });
 
         if (!res.ok) {
@@ -61,13 +61,13 @@ export default function EventList({ api }: EventListProps) {
   const fetchUpdatedEvents = async () => {
     try {
       setLoading(true);
-      const token = await clientToken()
+      const token = await clientToken();
 
       const res = await fetch(api, {
         cache: "no-store",
-          headers : {
-        authorization :`Bearer ${token}` 
-      }
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
       });
 
       if (!res.ok) {
@@ -88,38 +88,34 @@ export default function EventList({ api }: EventListProps) {
   }
 
   const filteredEvents = events.filter((event) => {
-  const matchSearch = event.title
-    .toLowerCase()
-    .includes(search.toLowerCase());
+    const matchSearch = event.title
+      .toLowerCase()
+      .includes(search.toLowerCase());
 
-  const matchCategory =
-    category === "all" || event.type === category;
+    const matchCategory = category === "all" || event.type === category;
 
-  return matchSearch && matchCategory;
-});
-
-
+    return matchSearch && matchCategory;
+  });
 
   return (
     <div>
-      <EventSearch onSearch={setSearch}  onCategoryChange={setCategory}/>
+      <EventSearch onSearch={setSearch} onCategoryChange={setCategory} />
       <div>
-          {filteredEvents.length === 0 ? (
-        <NoEvents />
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6">
-          {filteredEvents.map((cd) => (
-            <EventCard
-              key={cd._id}
-              cd={cd}
-              onUpdated={fetchUpdatedEvents}
-              eventCount={events.length}
-            />
-          ))}
-        </div>
-      )}
+        {filteredEvents.length === 0 ? (
+          <NoEvents />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6">
+            {filteredEvents.map((cd) => (
+              <EventCard
+                key={cd._id}
+                cd={cd}
+                onUpdated={fetchUpdatedEvents}
+                eventCount={events.length}
+              />
+            ))}
+          </div>
+        )}
       </div>
-      
     </div>
   );
 }

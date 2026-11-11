@@ -7,6 +7,7 @@ import ParentNav from "@/component/ParentNav";
 
 import MainLayout from "@/component/MainLayout";
 import { ThemeProvider } from "@/component/theme-provider";
+import Footer from "@/component/Footer";
 
 const ralewayHeading = Raleway({
   subsets: ["latin"],
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             {children}
             <Toaster position="top-center" richColors />
           </MainLayout>
+            <Footer/>
         </ThemeProvider>
       </body>
     </html>
