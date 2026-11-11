@@ -38,25 +38,33 @@ import { EventType } from "@/type";
 import { authClient } from "@/lib/auth-client";
 import { clientToken } from "./getToken";
 
-interface EditEventsProps{
-    event: EventType
-    onEdited?: () => void;
-
+interface EditEventsProps {
+  event: EventType;
+  onEdited?: () => void;
 }
 
-
-export default function EditEvents({ event,onEdited }: EditEventsProps) {
+export default function EditEvents({ event, onEdited }: EditEventsProps) {
   const session = authClient.useSession();
-  const user = session.data?.user
+  const user = session.data?.user;
   const [open, setOpen] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      const token = await clientToken()
       const formData = new FormData(e.currentTarget);
       const eventData = Object.fromEntries(formData.entries());
+      const token = await clientToken();
+
+      if (!event?._id) {
+        toast.error("Event ID not found!");
+        return;
+      }
+
+      if (!user?.id) {
+        toast.error("Please login first!");
+        return;
+      }
 
       const response = await fetch(
         `http://localhost:8000/events/${event._id}`,
@@ -64,16 +72,14 @@ export default function EditEvents({ event,onEdited }: EditEventsProps) {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
-              authorization: `Bearer ${token}`,
-            
+            authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
             userId: user?.id,
-            ...eventData
+            ...eventData,
           }),
         },
       );
-      
 
       const data = await response.json();
 
@@ -83,15 +89,13 @@ export default function EditEvents({ event,onEdited }: EditEventsProps) {
 
       toast.success("Event updated successfully!");
       setOpen(false);
-      onEdited?.()
-      console.log("singleData",data)
+      onEdited?.();
+      console.log("singleData", data);
     } catch (error) {
       toast.error(
         error instanceof Error ? error.message : "Something went wrong!",
       );
-
     }
-    
   };
 
   return (

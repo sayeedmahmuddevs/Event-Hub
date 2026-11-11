@@ -14,7 +14,7 @@ export default function ParentNav() {
 
   return (
     <>
-      {session?.user ? <Navbar_2 /> : <Navbar />}
+      {session?.user ? <Navbar_2 /> : <Navbar /> }
     </>
   );
 }

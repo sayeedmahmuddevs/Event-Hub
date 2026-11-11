@@ -70,7 +70,7 @@ export default function CreateEvent() {
       };
 
       // Send request
-      const response = await fetch("http://localhost:8000/events", {
+      const response = await fetch(`http://localhost:8000/events`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

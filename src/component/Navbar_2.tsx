@@ -94,9 +94,8 @@ function SidebarContent({
 
       {/* Workspace */}
       <p
-        className={`mb-4 shrink-0 text-xs font-bold uppercase tracking-[2px] ${
-          isDark ? "text-slate-500" : "text-gray-400"
-        }`}
+        className="mb-4 shrink-0 text-xs font-bold uppercase tracking-[2px] dark:text-slate-500 text-gray-400"
+        
       >
         Workspace
       </p>

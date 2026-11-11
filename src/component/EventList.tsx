@@ -6,6 +6,7 @@ import { EventType } from "@/type";
 import NoEvents from "./NoEvents";
 import Loading from "./loading";
 import { clientToken } from "./getToken";
+import EventSearch from "./Searching";
 
 interface EventListProps {
   api: string;
@@ -14,6 +15,8 @@ interface EventListProps {
 export default function EventList({ api }: EventListProps) {
   const [events, setEvents] = useState<EventType[]>([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("all");
 
   useEffect(() => {
     let ignore = false;
@@ -84,13 +87,28 @@ export default function EventList({ api }: EventListProps) {
     return <Loading />;
   }
 
+  const filteredEvents = events.filter((event) => {
+  const matchSearch = event.title
+    .toLowerCase()
+    .includes(search.toLowerCase());
+
+  const matchCategory =
+    category === "all" || event.type === category;
+
+  return matchSearch && matchCategory;
+});
+
+
+
   return (
     <div>
-      {events.length === 0 ? (
+      <EventSearch onSearch={setSearch}  onCategoryChange={setCategory}/>
+      <div>
+          {filteredEvents.length === 0 ? (
         <NoEvents />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 p-6">
-          {events.map((cd) => (
+          {filteredEvents.map((cd) => (
             <EventCard
               key={cd._id}
               cd={cd}
@@ -100,6 +118,8 @@ export default function EventList({ api }: EventListProps) {
           ))}
         </div>
       )}
+      </div>
+      
     </div>
   );
 }

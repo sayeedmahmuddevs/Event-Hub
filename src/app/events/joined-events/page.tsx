@@ -7,6 +7,7 @@ import JoinedEventCard from "@/component/JoinedEventCard";
 import Loading from "@/component/loading";
 import NoEvents from "@/component/NoEvents";
 import { clientToken } from "@/component/getToken";
+import EventSearch from "@/component/Searching";
 
 export default function Page() {
   const session = authClient.useSession();
@@ -14,6 +15,8 @@ export default function Page() {
 
   const [joinedEvents, setJoinedEvents] = useState<EventType[]>([]);
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("all");
 
   useEffect(() => {
     if (session.isPending) return;
@@ -69,17 +72,32 @@ export default function Page() {
     return <p>Please login first!</p>;
   }
 
+ const filteredEvents = joinedEvents.filter((event) => {
+  const matchSearch = event.title
+    .toLowerCase()
+    .includes(search.toLowerCase());
+
+  const matchCategory =
+    category === "all" || event.type === category;
+
+  return matchSearch && matchCategory;
+});
+
   return (
     <div>
-      {joinedEvents.length === 0 ? (
+        <EventSearch onSearch={setSearch} onCategoryChange={setCategory}/>
+      <div>
+        {filteredEvents.length === 0 ? (
         <NoEvents />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 ml-5 mt-5">
-          {joinedEvents.map((event) => (
+          {filteredEvents.map((event) => (
             <JoinedEventCard key={event._id} event={event} />
           ))}
         </div>
       )}
+      </div>
+      
     </div>
   );
 }

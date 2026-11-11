@@ -8,7 +8,7 @@ export const clientToken = async()=> {
       const { data: tokenData, error } = await authClient.token();
 
       if (error || !tokenData?.token) {
-        toast.error("Token not found!");
+        toast.error("Token not founded!");
         return;
       }
 

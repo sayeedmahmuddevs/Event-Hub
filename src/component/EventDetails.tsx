@@ -190,7 +190,7 @@ export default function EventDetails({ card }: EventDetailsProps) {
       setLoading(true);
 
       const response = await fetch(
-        "http://localhost:8000/joined-events",
+        `http://localhost:8000/joined-events`,
         {
           method: "POST",
           headers: {
