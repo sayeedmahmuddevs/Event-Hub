@@ -18,6 +18,7 @@ import { DeleteEvent } from "./DeleteEvent";
 import { authClient } from "@/lib/auth-client";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { clientToken } from "./getToken";
 
 
 interface eventCardProps {
@@ -37,9 +38,17 @@ export default function EventCard({ cd, onUpdated }: eventCardProps) {
 useEffect(() => {
   const fetchUser = async () => {
     try {
+      const token = await clientToken()
+
       const res = await fetch(
         `http://localhost:8000/joined-event/events/${cd._id}`,
-        { cache: "no-store" }
+        { cache: "no-store",
+           headers: {
+              authorization: `Bearer ${token}`,
+            },
+        },
+        
+        
       );
 
       if (!res.ok) {

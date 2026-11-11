@@ -1,4 +1,3 @@
-
 "use client";
 
 import { authClient } from "@/lib/auth-client";
@@ -7,6 +6,7 @@ import { EventType } from "@/type";
 import JoinedEventCard from "@/component/JoinedEventCard";
 import Loading from "@/component/loading";
 import NoEvents from "@/component/NoEvents";
+import { clientToken } from "@/component/getToken";
 
 export default function Page() {
   const session = authClient.useSession();
@@ -24,6 +24,7 @@ export default function Page() {
 
     const fetchJoinedEvents = async () => {
       try {
+        const token = await clientToken();
         setLoading(true);
 
         const res = await fetch(
@@ -31,7 +32,10 @@ export default function Page() {
           {
             cache: "no-store",
             signal: controller.signal,
-          }
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          },
         );
 
         if (!res.ok) {
@@ -41,7 +45,6 @@ export default function Page() {
         const data = await res.json();
 
         setJoinedEvents(data);
-
       } catch (error) {
         if (error instanceof Error && error.name !== "AbortError") {
           console.error("Joined events fetch error:", error);
@@ -56,7 +59,6 @@ export default function Page() {
     fetchJoinedEvents();
 
     return () => controller.abort();
-
   }, [user?.id, session.isPending]);
 
   if (session.isPending || loading) {
@@ -74,10 +76,7 @@ export default function Page() {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 ml-5 mt-5">
           {joinedEvents.map((event) => (
-            <JoinedEventCard
-              key={event._id}
-              event={event}
-            />
+            <JoinedEventCard key={event._id} event={event} />
           ))}
         </div>
       )}

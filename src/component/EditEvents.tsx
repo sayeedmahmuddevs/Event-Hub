@@ -36,6 +36,7 @@ import {
 import { useState } from "react";
 import { EventType } from "@/type";
 import { authClient } from "@/lib/auth-client";
+import { clientToken } from "./getToken";
 
 interface EditEventsProps{
     event: EventType
@@ -53,6 +54,7 @@ export default function EditEvents({ event,onEdited }: EditEventsProps) {
     e.preventDefault();
 
     try {
+      const token = await clientToken()
       const formData = new FormData(e.currentTarget);
       const eventData = Object.fromEntries(formData.entries());
 
@@ -62,6 +64,8 @@ export default function EditEvents({ event,onEdited }: EditEventsProps) {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+              authorization: `Bearer ${token}`,
+            
           },
           body: JSON.stringify({
             userId: user?.id,

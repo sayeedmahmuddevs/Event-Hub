@@ -19,6 +19,7 @@ import { UserType } from "@/type";
 import { EventType } from "./JoinedEventCard";
 import Loading from "./loading";
 import EventList from "./EventList";
+import { clientToken } from "./getToken";
 interface ProfileUserType {
   user: UserType;
 }
@@ -34,12 +35,16 @@ export default function UserProfile({ user }: ProfileUserType) {
 
     const fetchUserEvents = async () => {
       try {
+        const token = await clientToken()
         setLoading(true);
 
         const res = await fetch(
           `http://localhost:8000/events/users/${user._id}`,
           {
             cache: "no-store",
+             headers: {
+              authorization: `Bearer ${token}`,
+            },
           },
         );
 

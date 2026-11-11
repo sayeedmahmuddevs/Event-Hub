@@ -2,6 +2,7 @@
 import { Suspense } from "react";
 import Loading from "@/component/loading";
 import UserProfile from "@/component/UserProfile";
+import { serverToken } from "@/component/GetServerToken";
 
 interface PageProps {
   params: Promise<{
@@ -10,12 +11,15 @@ interface PageProps {
 }
 
 async function EventData({ username }: { username: string }) {
-
-  
+  const token = await serverToken()
   const res = await fetch(
     `http://localhost:8000/users/${username}`,
     {
       cache: "no-store",
+      headers: {
+              authorization: `Bearer ${token}`,
+            },
+      
     }
   );
 

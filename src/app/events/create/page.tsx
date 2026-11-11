@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -28,6 +27,7 @@ import {
 } from "@/components/ui/select";
 
 import { authClient } from "@/lib/auth-client";
+import { clientToken } from "@/component/getToken";
 
 export default function CreateEvent() {
   const userData = authClient.useSession();
@@ -39,61 +39,64 @@ export default function CreateEvent() {
   const [thumbnail, setThumbnail] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  const form = e.currentTarget; 
+    const form = e.currentTarget;
 
-  if (userData.isPending) {
-    toast.info("Loading user...");
-    return;
-  }
-
-  if (!user) {
-    toast.error("Please login first!");
-    return;
-  }
-
-  try {
-    const formData = new FormData(form);
-    const eventData = Object.fromEntries(formData.entries());
-
-    const datas = {
-      userName: "@" + user.email?.split("@")[0],
-      userId: user.id,
-      ...eventData,
-      title: String(eventData.title).trim(),
-      createdDate: new Date().toLocaleString("en-US"),
-    };
-
-    const response = await fetch("http://localhost:8000/events", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(datas),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || "Event creation failed");
+    if (userData.isPending) {
+      toast.info("Loading user...");
+      return;
     }
 
-    toast.success("Event created successfully!");
+    if (!user) {
+      toast.error("Please login first!");
+      return;
+    }
 
-    form.reset(); 
-    setThumbnail("");
+    try {
+      
+      const token = await clientToken()
+      // Get form data
+      const formData = new FormData(form);
+      const eventData = Object.fromEntries(formData.entries());
 
-  } catch (error) {
-    console.error(error);
+      // Prepare event data
+      const eventPayload = {
+        userName: "@" + user.email?.split("@")[0],
+        userId: user.id,
+        ...eventData,
+        title: String(eventData.title).trim(),
+        createdDate: new Date().toLocaleString("en-US"),
+      };
 
-    toast.error(
-      error instanceof Error
-        ? error.message
-        : "Something went wrong!"
-    );
-  }
-};
+      // Send request
+      const response = await fetch("http://localhost:8000/events", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(eventPayload),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Event creation failed");
+      }
+
+      toast.success("Event created successfully!");
+
+      form.reset();
+      setThumbnail("");
+    } catch (error) {
+      console.error("Create event error:", error);
+
+      toast.error(
+        error instanceof Error ? error.message : "Something went wrong!",
+      );
+    }
+  };
 
   const labelClass = `font-semibold ${
     isDark ? "text-gray-200" : "text-slate-700"
@@ -158,7 +161,6 @@ export default function CreateEvent() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-
             {/* Event Title */}
 
             <div className="space-y-2">
@@ -182,7 +184,6 @@ export default function CreateEvent() {
             {/* Event Type, Date and Time */}
 
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-
               {/* Event Type */}
 
               <div className="space-y-2">
@@ -197,34 +198,22 @@ export default function CreateEvent() {
 
                   <SelectContent
                     className={
-                      isDark
-                        ? "border-gray-700 bg-[#17152f] text-white"
-                        : ""
+                      isDark ? "border-gray-700 bg-[#17152f] text-white" : ""
                     }
                   >
                     <SelectItem value="winter-clothing">
                       Winter Clothing Donation
                     </SelectItem>
 
-                    <SelectItem value="food-donation">
-                      Food Donation
-                    </SelectItem>
+                    <SelectItem value="food-donation">Food Donation</SelectItem>
 
-                    <SelectItem value="volunteer">
-                      Volunteer Event
-                    </SelectItem>
+                    <SelectItem value="volunteer">Volunteer Event</SelectItem>
 
-                    <SelectItem value="fundraising">
-                      Fundraising
-                    </SelectItem>
+                    <SelectItem value="fundraising">Fundraising</SelectItem>
 
-                    <SelectItem value="community">
-                      Community Support
-                    </SelectItem>
+                    <SelectItem value="community">Community Support</SelectItem>
 
-                    <SelectItem value="other">
-                      Other
-                    </SelectItem>
+                    <SelectItem value="other">Other</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

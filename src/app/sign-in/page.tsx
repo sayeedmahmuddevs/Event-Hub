@@ -84,7 +84,7 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f5f9ff] flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen dark:bg-gray-800 dark:text-white flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-6xl grid lg:grid-cols-2 gap-10 items-center">
         {/* LEFT SIDE */}
         <motion.div
@@ -100,13 +100,13 @@ export default function SignInPage() {
                 <Heart size={25} />
               </div>
 
-              <span className="text-2xl font-black text-gray-900">
+              <span className="text-2xl font-black dark:text-gray-200 text-gray-900">
                 Event<span className="text-blue-600">Hub</span>
               </span>
             </Link>
 
             {/* Heading */}
-            <h1 className="text-5xl font-black leading-tight text-gray-900">
+            <h1 className="text-5xl font-black leading-tight dark:text-white text-gray-900">
               Make Every
               <span className="block text-blue-600">Moment Matter.</span>
             </h1>
@@ -144,14 +144,14 @@ export default function SignInPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 + index * 0.15 }}
-                    className="flex items-center gap-4 rounded-xl border border-blue-100 bg-white/80 p-4 shadow-sm"
+                    className="flex items-center gap-4 rounded-xl border border-blue-100 dark:bg-gray-800 bg-white/80 p-4 shadow-sm"
                   >
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-100 text-blue-600">
                       <Icon size={23} />
                     </div>
 
                     <div>
-                      <h3 className="font-bold text-gray-900">{item.title}</h3>
+                      <h3 className="font-bold dark:text-white text-gray-900">{item.title}</h3>
 
                       <p className="text-sm text-gray-500">{item.desc}</p>
                     </div>
@@ -169,11 +169,11 @@ export default function SignInPage() {
           transition={{ duration: 0.7 }}
           className="w-full max-w-md mx-auto"
         >
-          <Card className="border-0 rounded-3xl bg-white shadow-xl shadow-blue-900/5">
+          <Card className="border-0 rounded-3xl dark:bg-gray-800 bg-white shadow-xl shadow-blue-900/5">
             <CardHeader className="space-y-3 p-7 sm:p-9">
               {/* Mobile Logo */}
               <Link href="/" className="flex lg:hidden items-center gap-2 mb-5">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 dark:text-white">
                   <Heart size={21} />
                 </div>
 
@@ -183,12 +183,12 @@ export default function SignInPage() {
               </Link>
 
               <div className="flex justify-center">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100 text-blue-600">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl dark:bg-gray-800 bg-blue-100 text-blue-600">
                   <LockKeyhole size={27} />
                 </div>
               </div>
 
-              <CardTitle className="text-center text-3xl font-black text-gray-900">
+              <CardTitle className="text-center text-3xl font-black dark:text-gray-300 text-gray-900">
                 Welcome Back!
               </CardTitle>
 

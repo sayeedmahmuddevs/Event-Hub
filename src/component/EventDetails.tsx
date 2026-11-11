@@ -22,6 +22,7 @@ import { authClient } from "@/lib/auth-client";
 import { toast } from "sonner";
 import formatEventDate from "./DateFormate";
 import Link from "next/link";
+import { clientToken } from "./getToken";
 
 interface EventDetailsProps {
   card: EventType;
@@ -55,11 +56,15 @@ export default function EventDetails({ card }: EventDetailsProps) {
 
     const fetchOrganizer = async () => {
       try {
+        const token = await clientToken()
         const res = await fetch(
           `http://localhost:8000/user/${card.userId}`,
           {
             signal: controller.signal,
             cache: "no-store",
+             headers: {
+              authorization: `Bearer ${token}`,
+            },
           }
         );
 
@@ -98,11 +103,15 @@ export default function EventDetails({ card }: EventDetailsProps) {
 
     const fetchPeople = async () => {
       try {
+        const token = await clientToken()
         const res = await fetch(
           `http://localhost:8000/joined-event/events/${card._id}`,
           {
             cache: "no-store",
             signal: controller.signal,
+             headers: {
+              authorization: `Bearer ${token}`,
+            },
           }
         );
 
@@ -135,11 +144,16 @@ export default function EventDetails({ card }: EventDetailsProps) {
 
   // Refresh Joined People
   const refreshEventPeople = async () => {
+    
     try {
+      const token = await clientToken()
       const res = await fetch(
         `http://localhost:8000/joined-event/events/${card._id}`,
         {
           cache: "no-store",
+           headers: {
+              authorization: `Bearer ${token}`,
+            },
         }
       );
 
@@ -172,6 +186,7 @@ export default function EventDetails({ card }: EventDetailsProps) {
     }
 
     try {
+      const token = await clientToken()
       setLoading(true);
 
       const response = await fetch(
@@ -180,6 +195,8 @@ export default function EventDetails({ card }: EventDetailsProps) {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+              authorization: `Bearer ${token}`,
+            
           },
           body: JSON.stringify({
             eventId: card._id,
@@ -221,6 +238,7 @@ export default function EventDetails({ card }: EventDetailsProps) {
     if (loading) return;
 
     try {
+      const token = await clientToken()
       setLoading(true);
 
       const res = await fetch(
@@ -229,6 +247,8 @@ export default function EventDetails({ card }: EventDetailsProps) {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+              authorization: `Bearer ${token}`,
+            
           },
           body: JSON.stringify({
             userId: user.id,

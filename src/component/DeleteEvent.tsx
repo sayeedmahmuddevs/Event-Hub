@@ -19,6 +19,7 @@ import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
+import { clientToken } from "./getToken";
 
 interface DeleteEventProps {
   id: string;
@@ -34,6 +35,7 @@ export function DeleteEvent({ id, onDeleted }: DeleteEventProps) {
 
   const handleDeleteEvent = async () => {
     try {
+      const token = await clientToken()
       setLoading(true);
 
       const res = await fetch(
@@ -42,6 +44,8 @@ export function DeleteEvent({ id, onDeleted }: DeleteEventProps) {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+              authorization: `Bearer ${token}`,
+            
           },
           body: JSON.stringify({
             userId: user?.id,

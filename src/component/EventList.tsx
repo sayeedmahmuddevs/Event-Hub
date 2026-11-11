@@ -5,6 +5,7 @@ import EventCard from "@/component/EventCards";
 import { EventType } from "@/type";
 import NoEvents from "./NoEvents";
 import Loading from "./loading";
+import { clientToken } from "./getToken";
 
 interface EventListProps {
   api: string;
@@ -19,10 +20,14 @@ export default function EventList({ api }: EventListProps) {
 
     const fetchEvents = async () => {
       try {
+        const token = await clientToken()
         setLoading(true);
 
         const res = await fetch(api, {
           cache: "no-store",
+            headers : {
+        authorization :`Bearer ${token}` 
+      }
         });
 
         if (!res.ok) {
@@ -53,9 +58,13 @@ export default function EventList({ api }: EventListProps) {
   const fetchUpdatedEvents = async () => {
     try {
       setLoading(true);
+      const token = await clientToken()
 
       const res = await fetch(api, {
         cache: "no-store",
+          headers : {
+        authorization :`Bearer ${token}` 
+      }
       });
 
       if (!res.ok) {
