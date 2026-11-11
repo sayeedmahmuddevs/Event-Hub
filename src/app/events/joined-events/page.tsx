@@ -31,7 +31,7 @@ export default function Page() {
         setLoading(true);
 
         const res = await fetch(
-          `http://localhost:8000/joined-events/${user.id}`,
+          `${process.env.NEXT_PUBLIC_CLIENT_LINK}/joined-events/${user.id}`,
           {
             cache: "no-store",
             signal: controller.signal,

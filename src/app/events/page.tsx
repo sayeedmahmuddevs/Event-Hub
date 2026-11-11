@@ -4,6 +4,6 @@ import EventList from "@/component/EventList";
 export default function Page() {
 
   
-  const api = `http://localhost:8000/events`
+  const api = `${process.env.NEXT_PUBLIC_CLIENT_LINK}/events`
   return <EventList api = {api} />;
 }

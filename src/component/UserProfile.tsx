@@ -39,7 +39,7 @@ export default function UserProfile({ user }: ProfileUserType) {
         setLoading(true);
 
         const res = await fetch(
-          `http://localhost:8000/events/users/${user._id}`,
+          `${process.env.NEXT_PUBLIC_CLIENT_LINK}/events/users/${user._id}`,
           {
             cache: "no-store",
              headers: {
@@ -75,7 +75,7 @@ export default function UserProfile({ user }: ProfileUserType) {
     };
   }, [user._id]);
 
-  const api = `http://localhost:8000/events/users/${user._id}`;
+  const api = `${process.env.NEXT_PUBLIC_CLIENT_LINK}/events/users/${user._id}`;
 
   if (loading) {
     return <Loading />;

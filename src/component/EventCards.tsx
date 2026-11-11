@@ -41,7 +41,7 @@ useEffect(() => {
       const token = await clientToken()
 
       const res = await fetch(
-        `http://localhost:8000/joined-event/events/${cd._id}`,
+        `${process.env.NEXT_PUBLIC_CLIENT_LINK}/joined-event/events/${cd._id}`,
         { cache: "no-store",
            headers: {
               authorization: `Bearer ${token}`,

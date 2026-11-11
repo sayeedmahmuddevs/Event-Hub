@@ -17,7 +17,7 @@ async function EventData({ id }: { id: string }) {
       const token = await serverToken()
   
   const res = await fetch(
-    `http://localhost:8000/events/${id}`,
+    `${process.env.NEXT_PUBLIC_CLIENT_LINK}/events/${id}`,
     {
       cache: "no-store",
       headers : {

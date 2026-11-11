@@ -17,7 +17,7 @@ export default function Page() {
     return <p>Please login first!</p>;
   }
 
-  const api = `http://localhost:8000/events/users/${userId}`;
+  const api = `${process.env.NEXT_PUBLIC_CLIENT_LINK}/events/users/${userId}`;
 
   return (
     <div>

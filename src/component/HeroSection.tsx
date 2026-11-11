@@ -159,7 +159,6 @@ const Hero = () => {
           <div className="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
 
             <Button
-              asChild
               size="lg"
               className={`group h-13 rounded-xl px-8 text-base font-bold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
                 isDark
@@ -178,7 +177,6 @@ const Hero = () => {
             </Button>
 
             <Button
-              asChild
               variant="outline"
               size="lg"
               className={`group h-13 rounded-xl px-8 text-base font-bold transition-all duration-300 hover:-translate-y-1 ${

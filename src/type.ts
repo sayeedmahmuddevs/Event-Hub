@@ -3,7 +3,7 @@ export interface EventType {
   userName: string;
   userId: string;
   title: string;
-  type: "volunteer" | "conference" | "workshop" | "other";
+  type: "volunteer" | "conference" | "workshop" | "other" | "food donation" | "winter clothing" | "fundrasing" | "communitiy"
   eventDate: string;
   eventTime: string;
   location: string;

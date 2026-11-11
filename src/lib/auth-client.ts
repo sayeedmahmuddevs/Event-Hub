@@ -8,7 +8,6 @@ export const authClient = createAuthClient({
     inferAdditionalFields<typeof auth>(),
     jwtClient(),
   ],
-  baseURL: `http://localhost:3000`,
 });
 
 export const {

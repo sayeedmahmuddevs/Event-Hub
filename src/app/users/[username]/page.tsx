@@ -13,7 +13,7 @@ interface PageProps {
 async function EventData({ username }: { username: string }) {
   const token = await serverToken()
   const res = await fetch(
-    `http://localhost:8000/users/${username}`,
+    `${process.env.NEXT_PUBLIC_CLIENT_LINK}/users/${username}`,
     {
       cache: "no-store",
       headers: {

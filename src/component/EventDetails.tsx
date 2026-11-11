@@ -58,7 +58,7 @@ export default function EventDetails({ card }: EventDetailsProps) {
       try {
         const token = await clientToken()
         const res = await fetch(
-          `http://localhost:8000/user/${card.userId}`,
+          `${process.env.NEXT_PUBLIC_CLIENT_LINK}/user/${card.userId}`,
           {
             signal: controller.signal,
             cache: "no-store",
@@ -105,7 +105,7 @@ export default function EventDetails({ card }: EventDetailsProps) {
       try {
         const token = await clientToken()
         const res = await fetch(
-          `http://localhost:8000/joined-event/events/${card._id}`,
+          `${process.env.NEXT_PUBLIC_CLIENT_LINK}/joined-event/events/${card._id}`,
           {
             cache: "no-store",
             signal: controller.signal,
@@ -148,7 +148,7 @@ export default function EventDetails({ card }: EventDetailsProps) {
     try {
       const token = await clientToken()
       const res = await fetch(
-        `http://localhost:8000/joined-event/events/${card._id}`,
+        `${process.env.NEXT_PUBLIC_CLIENT_LINK}/joined-event/events/${card._id}`,
         {
           cache: "no-store",
            headers: {
@@ -190,7 +190,7 @@ export default function EventDetails({ card }: EventDetailsProps) {
       setLoading(true);
 
       const response = await fetch(
-        `http://localhost:8000/joined-events`,
+        `${process.env.NEXT_PUBLIC_CLIENT_LINK}/joined-events`,
         {
           method: "POST",
           headers: {
@@ -242,7 +242,7 @@ export default function EventDetails({ card }: EventDetailsProps) {
       setLoading(true);
 
       const res = await fetch(
-        `http://localhost:8000/joined-events/${card._id}`,
+        `${process.env.NEXT_PUBLIC_CLIENT_LINK}/joined-events/${card._id}`,
         {
           method: "DELETE",
           headers: {
@@ -480,11 +480,11 @@ function Info({
 
       <div className="min-w-0">
 
-        <p className="text-sm text-slate-500">
+        <p className="text-sm  dark:text-slate-200">
           {title}
         </p>
 
-        <p className="mt-1 break-all font-semibold capitalize text-slate-800">
+        <p className="mt-1 break-all font-semibold capitalize dark:text-slate-500 text-slate-800">
           {value}
         </p>
 

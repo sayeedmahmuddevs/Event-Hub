@@ -67,7 +67,7 @@ export default function EditEvents({ event, onEdited }: EditEventsProps) {
       }
 
       const response = await fetch(
-        `http://localhost:8000/events/${event._id}`,
+        `${process.env.NEXT_PUBLIC_CLIENT_LINK}/events/${event._id}`,
         {
           method: "PATCH",
           headers: {
