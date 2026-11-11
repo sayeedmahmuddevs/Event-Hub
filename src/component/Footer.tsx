@@ -171,7 +171,7 @@ export default function Footer() {
         <div className="flex flex-col items-center justify-between gap-4 py-7 text-center md:flex-row">
 
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} EventHub. All rights reserved.
+             EventHub. All rights reserved.
           </p>
 
           <p className="flex items-center gap-1 text-sm text-muted-foreground">
